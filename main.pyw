@@ -1,5 +1,4 @@
 import wx
-from pip._vendor.pygments import style
 
 
 class EPRFrame(wx.Frame):
@@ -49,6 +48,10 @@ class EPRFrame(wx.Frame):
 
 
 
+        horiz_sizer = wx.BoxSizer(wx.HORIZONTAL)
+
+
+
         comboxbox = wx.ComboBox(panel,
                                 choices=["test", "meme2", "asdfas"],
                                 value="test",
@@ -57,7 +60,18 @@ class EPRFrame(wx.Frame):
         combo_font: wx.Font = comboxbox.GetFont()
         combo_font.SetPointSize(10)
         comboxbox.SetFont(combo_font)
-        vert_sizer.Add(comboxbox, wx.SizerFlags().Align(wx.ALIGN_CENTER_HORIZONTAL))
+        horiz_sizer.Add(comboxbox)
+
+
+        add_button = wx.Button(panel)
+        add_button.SetLabelText("+")
+        horiz_sizer.Add(add_button)
+
+
+
+        vert_sizer.Add(horiz_sizer, wx.SizerFlags().Align(wx.ALIGN_CENTER))
+
+        # vert_sizer.Add(comboxbox, wx.SizerFlags().Align(wx.ALIGN_CENTER_HORIZONTAL))
 
 
 
