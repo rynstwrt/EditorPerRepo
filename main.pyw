@@ -1,6 +1,7 @@
 from os.path import expandvars
 from config_manager import ConfigManager
 from epr_gui import EprGUI
+from epr_popup import EprPopup, EprPopupTypes
 from pathlib import Path
 import sys
 import subprocess
@@ -38,4 +39,5 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    EprPopup().show(EprPopupTypes.INVALID_DIR)
+    # run()
