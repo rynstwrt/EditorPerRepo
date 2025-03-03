@@ -91,7 +91,7 @@ class EprGUI:
         self.window.destroy()
 
 
-    def __bind_events(self, _):
+    def __on_loaded(self):
         self.editor_select = self.window.dom.get_element("#editor-select")
         [self.__add_select_option(option) for option in self.config.editors]
 
@@ -104,6 +104,8 @@ class EprGUI:
         if last_used_editors:
             self.editor_select.value = last_used_editors[0].value
 
+
+    def __bind_events(self, _):
         self.window.dom.get_element("#exit-button").on("click", lambda e: self.window.destroy())
         self.window.dom.get_element("#remove-editor-button").on("click", self.__on_remove_editor_click)
         self.window.dom.get_element("#add-editor-button").on("click", self.__on_add_editor_click)
@@ -118,4 +120,5 @@ class EprGUI:
 
     def show(self):
         webview.DRAG_REGION_SELECTOR = "header"
+        self.window.events.loaded += self.__on_loaded
         webview.start(self.__bind_events, self.window, ssl=True)
