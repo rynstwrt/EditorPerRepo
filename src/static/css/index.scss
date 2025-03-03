@@ -4,14 +4,22 @@
 main
 {
     justify-content: center;
+    //align-items: center;
     padding: 10px 40px;
-    font-size: 15px;
-    font-family: inherit;
+    //font-size: inherit;
+    //font-size: 15px;
+    //font-family: inherit;
 
     & > *
     {
         width: 100%;
     }
+}
+
+
+body
+{
+    //padding: 10px 40px;
 }
 
 
@@ -32,9 +40,10 @@ h1
     .row
     {
         display: flex;
+        justify-content: center;
         align-items: center;
         width: 100%;
-        padding: 3px 0;
+        padding: 5px 0;
 
         label
         {
@@ -49,7 +58,7 @@ select, button:not(#exit-button)
 {
     padding: 3px 5px;
     border-radius: 5px;
-    min-height: 20px;
+    min-height: 25px;
     font-family: inherit;
 }
 
@@ -57,13 +66,19 @@ select, button:not(#exit-button)
 select#editor-select
 {
     width: 100%;
-    min-width: 100px;
+    min-width: fit-content;
+    max-width: fit-content;
     margin-right: 5px;
     font-size: 13px;
 
     option#auto-found-divider
     {
-        //display: none;
+        min-height: unset;
+        color: rgba(black, 0.2);
+        text-align: center;
+        pointer-events: none;
+        padding: 0;
+        font-size: 10px;
     }
 }
 
@@ -74,8 +89,10 @@ button
     justify-content: center;
     align-items: center;
     min-width: fit-content;
+    max-width: max-content;
     background-color: white;
     text-align: center;
+    font-family: inherit;
 
     &:hover
     {
@@ -84,9 +101,13 @@ button
 
     &:not(#exit-button)
     {
-        width: 30px;
+        //display: inline-block;
+        //min-width: 25px;
+        min-width: fit-content;
+        width: 100%;
+        //width: max-content;
         min-height: 100%;
-        padding: 3px 7px;
+        padding: 3px 10px;
         margin-left: 5px;
         font-size: 15px;
         font-weight: 500;

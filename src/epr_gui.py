@@ -8,13 +8,16 @@ from epr_popup import EprPopup, EprPopupTypes
 
 class EprGUI:
     __WINDOW_TITLE = "EditorPerRepo"
-    __WINDOW_SIZE = (600, 280)
+    __WINDOW_SIZE = (650, 300)
     __WINDOW_HTML_PATH = "static/index.html"
 
 
     def __init__(self, config: ConfigManager = None, target_dir: str = None):
         self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
+                                                            # min_size=self.__WINDOW_SIZE,
+                                                            # min_size=(self.__WINDOW_SIZE[0], 0),
+
                                                             resizable=False, easy_drag=True, frameless=True)
         self.editor_select: Element = None
         self.editor_select_divider: Element = None
@@ -89,8 +92,7 @@ class EprGUI:
         editor = EditorEntry(path=file_select[0])
         self.config.editors.append(editor)
         self.__add_select_option(editor)
-        # TODO: Needed?
-        self.__hide_or_show_auto_found_editors()
+        # self.__hide_or_show_auto_found_editors()
         self.__hide_or_show_auto_found_select_divider()
         self.config.save_data()
 
@@ -138,6 +140,9 @@ class EprGUI:
         [self.__add_select_option(option) for option in self.config.editors]
 
         self.editor_select_divider = self.window.dom.get_element("option#auto-found-divider")
+        # self.editor_select_divider.text = "-" * 25
+        # self.editor_select_divider.test = "─" * 30
+        self.editor_select_divider.text = "\U00002500" * 30
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None
