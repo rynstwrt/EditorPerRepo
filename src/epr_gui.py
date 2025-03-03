@@ -4,6 +4,7 @@ from webview.dom.element import Element
 from config_manager import ConfigManager
 from data_types.editor_entry import EditorEntry
 from epr_popup import EprPopup, EprPopupTypes
+from pathlib import Path
 
 
 class EprGUI:
@@ -13,10 +14,14 @@ class EprGUI:
 
 
     def __init__(self, config: ConfigManager = None, target_dir: str = None):
-        self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
+        self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE,
+                                                            self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
                                                             # min_size=self.__WINDOW_SIZE,
-                                                            resizable=False, easy_drag=True, frameless=True)
+                                                            resizable=False,
+                                                            easy_drag=True, frameless=True)
+
+
         self.editor_select: Element = None
         self.editor_select_divider: Element = None
 
@@ -139,8 +144,22 @@ class EprGUI:
 
         self.editor_select_divider = self.window.dom.get_element("option#auto-found-divider")
         # self.editor_select_divider.text = "-" * 25
-        # self.editor_select_divider.test = "─" * 30
         self.editor_select_divider.text = "\U00002500" * 30
+
+        # current_select_width = self.editor_select.style["width"]
+        # print("current", current_select_width)
+        # self.editor_select.style["min-width"] = current_select_width
+
+
+        editor_select_char_lengths = list(map(lambda o: len(o.text), self.editor_select.children))
+        editor_select_max_char_length = f"{max(editor_select_char_lengths)}ch"
+        self.editor_select.style["min-width"] = editor_select_max_char_length
+
+        # self.editor_select.style["min-width"] = f"{max(editor_select_char_lengths)}ch"
+        # self.editor_select.style["min-width"] = "10ch"
+
+        # self.editor_select.style["max-width"] = self.editor_select.style["min-width"]
+        # self.editor_select.style["width"] = f"{max(editor_select_char_lengths)}ch"
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None

@@ -1,9 +1,11 @@
 @import "shared";
 
 
-body
+html, body
 {
     //padding: 10px 40px;
+    //opacity: 0.5;
+    //background: rgba(orange, 0.3);
 }
 
 
@@ -56,14 +58,21 @@ h1
 select, button
 {
     box-shadow: 0 1px 3px rgba(black, 0.1);
+
+    &:hover
+    {
+        cursor: pointer;
+    }
 }
 
 
 select#editor-select
 {
-    width: 100%;
+    //width: 100%;
+    //width: max-content;
     min-width: fit-content;
-    max-width: fit-content;
+    max-width: 100%;
+    //max-width: fit-content;
     min-height: 25px;
     margin-right: 5px;
     font-size: 13px;
@@ -72,6 +81,16 @@ select#editor-select
     font-family: inherit;
     color: rgba(black, .85);
     letter-spacing: 0.3px;
+
+    option
+    {
+        //padding: 0 0;
+
+        //&:hover
+        //{
+        //    cursor: pointer;
+        //}
+    }
 
     option#auto-found-divider
     {

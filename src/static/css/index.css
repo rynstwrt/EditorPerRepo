@@ -77,11 +77,13 @@ h1 {
 select, button {
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
+select:hover, button:hover {
+  cursor: pointer;
+}
 
 select#editor-select {
-  width: 100%;
   min-width: fit-content;
-  max-width: fit-content;
+  max-width: 100%;
   min-height: 25px;
   margin-right: 5px;
   font-size: 13px;
