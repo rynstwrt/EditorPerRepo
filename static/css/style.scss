@@ -26,33 +26,29 @@ body
 }
 
 
-header
-{
-    width: 100%;
-    padding-top: 25px;
-    padding-bottom: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-
 main
 {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
     text-align: center;
     width: 100%;
     height: 100%;
-    max-width: 400px;
+    padding: 15px 50px;
     font-size: 15px;
+    font-family: inherit;
 
     & > *
     {
         width: 100%;
     }
+}
+
+
+h1
+{
+    padding-bottom: 15px;
 }
 
 
@@ -68,6 +64,7 @@ main
     {
         width: 100%;
         display: inherit;
+        align-items: center;
         padding: 3px 0;
 
         label
@@ -115,6 +112,7 @@ button
     &#add-editor-button, #remove-editor-button
     {
         font-size: 17px;
+        min-height: 100%;
 
         &#add-editor-button
         {

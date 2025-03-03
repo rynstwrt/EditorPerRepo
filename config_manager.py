@@ -60,7 +60,7 @@ class ConfigManager:
             search_location_paths = self.__COMMON_EDITOR_LOCATIONS[sys.platform]
             found_editors = [glob(expandvars(editor_path), recursive=True) for editor_path in search_location_paths]
             found_editors = reduce(lambda a, b: a + b, found_editors)
-            return list(map(lambda x: Path(x), found_editors))
+            return list(map(lambda x: str(Path(x)), found_editors))
 
 
     def should_show_found_editors(self):

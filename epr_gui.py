@@ -5,7 +5,7 @@ from config_manager import ConfigManager
 
 
 class EprGUI:
-    __WINDOW_SIZE = (600, 280)
+    __WINDOW_SIZE = (600, 300)
 
 
     def __init__(self):
@@ -27,6 +27,25 @@ class EprGUI:
 
         print(f"Selected file: {file_select}")
         self.add_select_option(file_select[0])
+
+
+    def __on_remove_editor_click(self, e):
+        selected_option_path = self.get_select_value()
+        if selected_option_path not in self.saved_editor_paths + self.found_editor_paths:
+            return
+
+        print("Removing", selected_option_path)
+        # self.saved_editor_paths.remove(selected_option_path) if selected_option_path in self.saved_editor_paths else self.found_editor_paths.remove(selected_option_path)
+        if selected_option_path in self.saved_editor_paths:
+            self.saved_editor_paths.remove(selected_option_path)
+        elif selected_option_path in self.found_editor_paths:
+            self.found_editor_paths.remove(selected_option_path)
+
+        # TODO: list index out of range "return self.editor_select.children[select_child_index].text"
+        removed_option = list(filter(lambda option: option.value == self.editor_select.value, self.editor_select.children))
+        print(removed_option)
+        if removed_option:
+            removed_option[0].remove()
 
 
     def __hide_or_show_auto_found_editors(self):
@@ -65,6 +84,7 @@ class EprGUI:
         self.show_found_checkbox.on("change", self.__on_show_found_checkbox_change)
         self.__hide_or_show_auto_found_editors()
 
+        self.window.dom.get_element("#remove-editor-button").on("click", self.__on_remove_editor_click)
         self.window.dom.get_element("#add-editor-button").on("click", self.__on_add_editor_click)
         self.window.dom.get_element("#submit").on("click", self.__on_submit_click)
 
