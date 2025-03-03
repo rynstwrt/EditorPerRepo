@@ -15,6 +15,8 @@ def run():
     if not target_dir_path.exists():
         return print("Target repo dir does not exist!")
 
+    print("Target dir:", target_dir_path)
+
     config = ConfigManager(target_dir_path)
     # config.repo_editor_dict = {}
 
