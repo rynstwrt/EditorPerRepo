@@ -16,8 +16,6 @@ class EprGUI:
         self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
                                                             # min_size=self.__WINDOW_SIZE,
-                                                            # min_size=(self.__WINDOW_SIZE[0], 0),
-
                                                             resizable=False, easy_drag=True, frameless=True)
         self.editor_select: Element = None
         self.editor_select_divider: Element = None
