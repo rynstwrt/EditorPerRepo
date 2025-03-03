@@ -34,8 +34,10 @@ class ConfigManager:
 
     def __init__(self, target_dir=None):
         self.target_dir = target_dir
-        self.repo_editor_dict = {}
+        self.__STORAGE_FILE_NAME = Path(__file__).parent.joinpath(self.__STORAGE_FILE_NAME).resolve()
+        # self.save_file_path = Path.cwd() / self.__STORAGE_FILE_NAME
 
+        self.repo_editor_dict = {}
         self.editors = []
         self.show_found_editors = True
         self.last_used_editor_path = None

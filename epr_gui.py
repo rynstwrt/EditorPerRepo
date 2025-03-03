@@ -59,7 +59,7 @@ class EprGUI:
 
 
     def __on_remove_editor_click(self, _):
-        selected_option_path = self.get_selected_option_path()
+        selected_option_path = self.__get_selected_option_path()
         print("Removing", selected_option_path)
 
         selected_editor = list(filter(lambda editor: editor.path == selected_option_path, self.config.editors))
@@ -82,11 +82,11 @@ class EprGUI:
 
     def __on_submit_click(self, _):
         target_dir = self.config.target_dir
-        editor_path = self.get_selected_option_path()
+        editor_path = self.__get_selected_option_path()
         print(f"Setting {target_dir} to {editor_path}!")
 
         self.config.repo_editor_dict[target_dir] = editor_path
-        self.config.last_used_editor_path = self.get_selected_option_path()
+        self.config.last_used_editor_path = self.__get_selected_option_path()
         self.config.save_data()
         self.window.destroy()
 
@@ -112,7 +112,7 @@ class EprGUI:
         self.window.dom.get_element("#submit").on("click", self.__on_submit_click)
 
 
-    def get_selected_option_path(self):
+    def __get_selected_option_path(self):
         options_with_key_value = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if options_with_key_value:
             return options_with_key_value[0].text
