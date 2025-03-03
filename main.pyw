@@ -1,3 +1,4 @@
+from os.path import expandvars
 from config_manager import ConfigManager
 from epr_gui import EprGUI
 from pathlib import Path
@@ -28,7 +29,8 @@ if __name__ == "__main__":
     # print("args: ", args)
 
     # target_dir = args[0]
-    target_dir = "C:/Users/ryans/Documents/GitHub/EditorPerRepoGUI"
+    target_dir = "%HOME%/Documents/GitHub/EditorPerRepoGUI"
+    target_dir = expandvars(target_dir)
 
     config = ConfigManager(target_dir)
     config.repo_editor_dict = {}
