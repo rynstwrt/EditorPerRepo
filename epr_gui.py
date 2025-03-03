@@ -67,7 +67,11 @@ class EprGUI:
 
 
     def get_select_value(self):
-        select_child_index = len(self.editor_select.children) - int(self.editor_select.value) - 1
+        selected_value = self.editor_select.value
+        if not selected_value.isdigit():
+            return selected_value
+
+        select_child_index = len(self.editor_select.children) - int(selected_value) - 1
         return self.editor_select.children[select_child_index].text
 
 
