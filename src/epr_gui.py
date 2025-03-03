@@ -2,13 +2,14 @@ import webview
 from webview.dom import ManipulationMode
 from webview.dom.element import Element
 from config_manager import ConfigManager
-from editor_entry import EditorEntry
+from data_types.editor_entry import EditorEntry
+from epr_popup import EprPopup, EprPopupTypes
 
 
 class EprGUI:
     __WINDOW_TITLE = "EditorPerRepo"
     __WINDOW_SIZE = (600, 280)
-    __WINDOW_HTML_PATH = "./static/index.html"
+    __WINDOW_HTML_PATH = "static/index.html"
 
 
     def __init__(self, config: ConfigManager = None, target_dir: str = None):
@@ -83,6 +84,10 @@ class EprGUI:
 
     def __on_submit_click(self, _):
         editor_path = self.__get_selected_option_path()
+        if not editor_path:
+            print("Submit button pressed with no selected option!")
+            return EprPopup().show(EprPopupTypes.SUBMIT_WITH_NO_SELECTED)
+
         print(f"Setting {self.target_dir} to {editor_path}!")
 
         self.config.repo_editor_dict[self.target_dir] = editor_path

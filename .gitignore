@@ -156,5 +156,5 @@ dmypy.json
 cython_debug/
 
 # EditorPerRepoGUI additions
-/tests
+/backups
 epr.data

@@ -1,10 +1,10 @@
+import sys
+import subprocess
 from os.path import expandvars
 from config_manager import ConfigManager
 from epr_gui import EprGUI
 from epr_popup import EprPopup, EprPopupTypes
 from pathlib import Path
-import sys
-import subprocess
 
 
 def run():
@@ -41,4 +41,10 @@ def run():
 
 
 if __name__ == "__main__":
-    run()
+    print()
+    print("platform:", sys.platform)
+    print("epr.data:", Path("epr.data").resolve())
+    print("file epr.data:", Path(__file__).parent.joinpath("epr.data").resolve())
+    EprPopup().show(EprPopupTypes.SUBMIT_WITH_NO_SELECTED)
+    print()
+    # run()
