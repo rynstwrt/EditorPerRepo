@@ -113,4 +113,4 @@ class EprGUI:
 
 
     def show(self):
-        webview.start(self.__bind_events, self.window)
+        webview.start(self.__bind_events, self.window, ssl=True)
