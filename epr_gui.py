@@ -26,7 +26,7 @@ class EprGUI:
             return
 
         print(f"Selected file: {file_select}")
-        self.add_select_option(EditorEntry(file_select[0]))
+        self.add_select_option(EditorEntry(path=file_select[0]))
 
 
     def __on_remove_editor_click(self, e):
