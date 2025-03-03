@@ -5,6 +5,7 @@ from pathlib import Path
 
 
 PROGRAM_NAME = "EditorPerRepoGUI"
+ICON_FILE = "src/assets/icon.png"
 
 DEFAULT_MAIN_FILE = "src/main.py"
 DEFAULT_DATA_FOLDERS = [("src/static", "static")]
@@ -16,11 +17,15 @@ DEFAULT_OUTPUT_EXEC_TARGET_DIR = "C:/Users/ryans/Dropbox/OpenSCAD Projects/8x8-L
 
 class BuildCreator:
     def __init__(self, main_file=DEFAULT_MAIN_FILE,
+                 name=PROGRAM_NAME,
+                 icon_file=ICON_FILE,
                  data_folders=None,
                  skip_overwite_confirmation=DEFAULT_SKIP_OVERWRITE_CONFIRMATION,
                  output_exec_path=DEFAULT_OUTPUT_EXEC_PATH,
                  output_exec_target_dir=DEFAULT_OUTPUT_EXEC_TARGET_DIR):
         self.__main_file = self.__get_absolute_path(main_file)
+        self.__name = name or "main"
+        self.__icon_path = self.__get_absolute_path(icon_file)
         self.__data_folders = data_folders or DEFAULT_DATA_FOLDERS
         self.__skip_overwrite_confirmation = skip_overwite_confirmation
 
@@ -32,14 +37,13 @@ class BuildCreator:
 
     @staticmethod
     def __get_absolute_path(path_str):
-        if isinstance(path_str, Path):
-            return str(path_str.resolve())
-
-        return str(Path(path_str).resolve())
+        print(path_str)
+        if path_str:
+            return str((path_str if isinstance(path_str, Path) else Path(path_str)).resolve())
 
 
     def __get_pyinstaller_cmd(self):
-        pyinstaller_command = [self.__main_file, f"--name={PROGRAM_NAME}"]
+        pyinstaller_command = [self.__main_file, f"--name={self.__name}", f"--icon={self.__icon_path}"]
         [pyinstaller_command.extend([f"--add-data={df[0]}:{df[1]}"]) for df in self.__data_folders]
         pyinstaller_command.append("-y") if self.__skip_overwrite_confirmation else None
         return pyinstaller_command
