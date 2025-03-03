@@ -6,7 +6,7 @@ from editor_entry import EditorEntry
 
 
 class EprGUI:
-    __WINDOW_SIZE = (600, 300)
+    __WINDOW_SIZE = (600, 280)
 
 
     def __init__(self):
