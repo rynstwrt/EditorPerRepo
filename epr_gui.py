@@ -32,7 +32,7 @@ class EprGUI:
 
 
     def __on_remove_editor_click(self, _):
-        selected_option_path = self.get_select_value()
+        selected_option_path = self.get_selected_option_path()
         print("Removing", selected_option_path)
 
         selected_editor = list(filter(lambda editor: editor.path == selected_option_path, self.config.editors))
@@ -69,7 +69,7 @@ class EprGUI:
 
 
     def __on_submit_click(self, _):
-        print(self.get_select_value())
+        print(self.get_selected_option_path())
 
 
     def __bind_events(self, _):
@@ -86,7 +86,7 @@ class EprGUI:
         self.window.dom.get_element("#submit").on("click", self.__on_submit_click)
 
 
-    def get_select_value(self):
+    def get_selected_option_path(self):
         options_with_key_value = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if options_with_key_value:
             return options_with_key_value[0].text
