@@ -46,29 +46,41 @@ main > * {
 main > *:not(h1) {
   font-size: 15px;
 }
-main #explanation-text {
+
+#explanation-text {
   font-size: 15px;
 }
-main #select-div {
+
+#select-div {
   margin: 20px 0;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
-main button, main select {
+#select-div .row {
+  width: 100%;
+  display: inherit;
+  padding: 3px 0;
+}
+#select-div .row label {
+  margin-right: 5px;
+}
+
+button, select {
   padding: 3px 5px;
   border-radius: 5px;
   min-width: 20px;
   min-height: 20px;
 }
-main button:is(button):hover, main select:is(button):hover {
+button:is(button):hover, select:is(button):hover {
   cursor: pointer;
 }
-main button#editor-select, main select#editor-select {
+button#editor-select, select#editor-select {
   width: 100%;
   margin-right: 10px;
 }
-main button#submit, main select#submit {
+button#submit, select#submit {
   padding: 5px;
 }
 
