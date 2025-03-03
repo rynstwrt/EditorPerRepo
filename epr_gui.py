@@ -14,7 +14,7 @@ class EprGUI:
     def __init__(self, config: ConfigManager = None):
         self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
-                                                            resizable=False)
+                                                            resizable=False, easy_drag=True, frameless=True)
         self.editor_select: Element = None
 
         self.config = config or ConfigManager()
@@ -79,6 +79,7 @@ class EprGUI:
         print(f"Setting {target_dir} to {editor_path}!")
 
         self.config.repo_editor_dict[target_dir] = editor_path
+        self.config.last_used_editor_path = self.get_selected_option_path()
         self.config.save_data()
         self.window.destroy()
 
@@ -92,6 +93,11 @@ class EprGUI:
         self.show_found_checkbox.on("change", self.__on_show_found_checkbox_change)
         self.__hide_or_show_auto_found_editors()
 
+        last_used_editors = list(filter(lambda option: option.text == self.config.last_used_editor_path, self.editor_select.children))
+        if last_used_editors:
+            self.editor_select.value = last_used_editors[0].value
+
+        self.window.dom.get_element("#exit-button").on("click", lambda e: self.window.destroy())
         self.window.dom.get_element("#remove-editor-button").on("click", self.__on_remove_editor_click)
         self.window.dom.get_element("#add-editor-button").on("click", self.__on_add_editor_click)
         self.window.dom.get_element("#submit").on("click", self.__on_submit_click)
@@ -112,4 +118,5 @@ class EprGUI:
 
 
     def show(self):
+        webview.DRAG_REGION_SELECTOR = "header"
         webview.start(self.__bind_events, self.window, ssl=True)

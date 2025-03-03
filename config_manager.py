@@ -38,6 +38,7 @@ class ConfigManager:
 
         self.editors = []
         self.show_found_editors = True
+        self.last_used_editor_path = None
 
         self.__load_saved_data()
 
@@ -57,6 +58,7 @@ class ConfigManager:
             self.repo_editor_dict = data.repo_editor_dict
             self.editors = self.auto_find_installed_editors() + data.editors
             self.show_found_editors = data.show_found_editors
+            self.last_used_editor_path = data.last_used_editor_path if hasattr(data, "last_used_editor_path") else self.last_used_editor_path
 
 
     def save_data(self):
@@ -65,7 +67,8 @@ class ConfigManager:
         non_found_editors = [editor for editor in self.editors if not editor.auto_found]
         data = EprData(repo_editor_dict=self.repo_editor_dict,
                        editors=non_found_editors,
-                       show_found_editors=self.show_found_editors)
+                       show_found_editors=self.show_found_editors,
+                       last_used_editor_path=self.last_used_editor_path)
 
         with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
             pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
