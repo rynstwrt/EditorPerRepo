@@ -11,13 +11,13 @@ class EprGUI:
     __WINDOW_HTML_PATH = "./static/index.html"
 
 
-    def __init__(self):
+    def __init__(self, config: ConfigManager = None):
         self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
                                                             resizable=False)
         self.editor_select: Element = None
 
-        self.config = ConfigManager()
+        self.config = config or ConfigManager()
 
 
     def __on_add_editor_click(self, e):
@@ -73,7 +73,15 @@ class EprGUI:
 
 
     def __on_submit_click(self, _):
-        print(self.get_selected_option_path())
+        # self.config.repo_editor_dict[self.config.target_dir] = self.get_selected_option_path()
+        target_dir = self.config.target_dir
+        editor_path = self.get_selected_option_path()
+
+        print(f"Setting {target_dir} to {editor_path}!")
+        self.config.repo_editor_dict[target_dir] = editor_path
+        self.config.save_data()
+
+        self.window.destroy()
 
 
     def __bind_events(self, _):

@@ -32,9 +32,12 @@ class ConfigManager:
     }
 
 
-    def __init__(self):
-        self.show_found_editors = True
+    def __init__(self, target_dir=None):
+        self.target_dir = target_dir
+        self.repo_editor_dict = {}
+
         self.editors = []
+        self.show_found_editors = True
 
         self.__load_saved_data()
 
@@ -51,6 +54,7 @@ class ConfigManager:
             print(data)
             save_file.close()
 
+            self.repo_editor_dict = data.repo_editor_dict
             self.editors = self.auto_find_installed_editors() + data.editors
             self.show_found_editors = data.show_found_editors
 
@@ -59,7 +63,9 @@ class ConfigManager:
         print("Saving data")
         
         non_found_editors = [editor for editor in self.editors if not editor.auto_found]
-        data = EprData(editors=non_found_editors, show_found_editors=self.show_found_editors)
+        data = EprData(repo_editor_dict=self.repo_editor_dict,
+                       editors=non_found_editors,
+                       show_found_editors=self.show_found_editors)
 
         with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
             pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
