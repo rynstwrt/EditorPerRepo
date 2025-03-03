@@ -1,4 +1,5 @@
 import webview
+from webview.dom import ManipulationMode
 from webview.dom.element import Element
 
 
@@ -13,32 +14,35 @@ def get_saved_editor_paths():
 
 
 def get_select_value():
-    return window.dom.get_element("#editor-select").value
-
-
-def set_select_value(value):
     global select
-    select.value = str(value)
+    select_child_index = select.value
+    return select.children[len(select.children) - int(select_child_index) - 1].text
+
+
+def set_select_value(option_index):
+    global select
+    select.value = option_index
 
 
 def add_select_option(value):
     global select
-    select.append(f"<option value='{value}'>{value}</option>")
-    option_elements = window.dom.get_elements("option")
-    set_select_value(option_elements[len(option_elements)-1].value)
+    option_index = len(select.children)
+    select.append(f"<option value='{option_index}'>{value}</option>",
+                  mode=ManipulationMode.FirstChild)
+
+    set_select_value(option_index)
 
 
 def on_add_editor_click(e):
     print("adding")
 
-    file_select = window.create_file_dialog()
+    file_select = window.create_file_dialog(webview.OPEN_DIALOG, allow_multiple=False)
     if not file_select:
         print("File select cancelled")
         return
 
     print(f"Selected file: {file_select}")
     add_select_option(file_select[0])
-    set_select_value(file_select[0])
 
 
 def on_submit_click(e):
