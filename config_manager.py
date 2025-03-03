@@ -6,34 +6,31 @@ import sys
 
 
 class ConfigManager:
-    __COMMON_WINDOWS_EDITOR_PATHS = [
-        "%LOCALAPPDATA%/Programs/Microsoft VS Code/Code.exe",
-        "C:/Program Files/JetBrains/*/*/webstorm64.exe",
-        "C:/Program Files/JetBrains/*/*/pycharm64.exe",
-        "C:/Program Files/JetBrains/*/*/idea64.exe",
-        "C:/Program Files/JetBrains/*/*/clion64.exe",
-        "C:/Program Files/JetBrains/*/*/webstorm.exe",
-        "C:/Program Files/JetBrains/*/*/pycharm.exe",
-        "C:/Program Files/JetBrains/*/*/idea.exe",
-        "C:/Program Files/JetBrains/*/*/clion.exe",
-        "%LOCALAPPDATA%/Atom/atom.exe",
-        "C:/Program Files/Sublime Text/sublime_text.exe",
-        "%APPDATA%/Sublime Text/sublime_text.exe",
-        "C:/Program Files/Notepad++/notepad++.exe"
-    ]
+    __COMMON_EDITOR_LOCATIONS = {
+        "win32": [
+            "%LOCALAPPDATA%/Programs/Microsoft VS Code/Code.exe",
+            "C:/Program Files/JetBrains/*/*/webstorm64.exe",
+            "C:/Program Files/JetBrains/*/*/pycharm64.exe",
+            "C:/Program Files/JetBrains/*/*/idea64.exe",
+            "C:/Program Files/JetBrains/*/*/clion64.exe",
+            "C:/Program Files/JetBrains/*/*/webstorm.exe",
+            "C:/Program Files/JetBrains/*/*/pycharm.exe",
+            "C:/Program Files/JetBrains/*/*/idea.exe",
+            "C:/Program Files/JetBrains/*/*/clion.exe",
+            "%LOCALAPPDATA%/Atom/atom.exe",
+            "C:/Program Files/Sublime Text/sublime_text.exe",
+            "%APPDATA%/Sublime Text/sublime_text.exe",
+            "C:/Program Files/Notepad++/notepad++.exe"
+        ],
+        "darwin": [],
+        "linux": []
+    }
 
 
     def __init__(self):
         self.show_found_editors = True
 
         self.editor_paths = []
-
-
-    def __find_common_windows_editors(self):
-        print("Finding installed editors for Windows...")
-        found_windows_editors = [glob(expandvars(editor_path), recursive=True) for editor_path in self.__COMMON_WINDOWS_EDITOR_PATHS]
-        found_windows_editors = reduce(lambda a, b: a + b, found_windows_editors)
-        return list(map(lambda x: Path(x), found_windows_editors))
 
 
     # TODO:
@@ -59,9 +56,11 @@ class ConfigManager:
 
 
     def auto_find_installed_editors(self):
-        platform = sys.platform
-        if platform == "win32":  # Others are linux and darwin
-            return self.__find_common_windows_editors()
+        if sys.platform in self.__COMMON_EDITOR_LOCATIONS.keys():
+            search_location_paths = self.__COMMON_EDITOR_LOCATIONS[sys.platform]
+            found_editors = [glob(expandvars(editor_path), recursive=True) for editor_path in search_location_paths]
+            found_editors = reduce(lambda a, b: a + b, found_editors)
+            return list(map(lambda x: Path(x), found_editors))
 
 
     def should_show_found_editors(self):

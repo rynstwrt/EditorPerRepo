@@ -14,7 +14,7 @@ class EprGUI:
 
         self.config = ConfigManager()
         self.saved_editor_paths = self.config.get_editor_paths() or []
-        self.found_editor_paths = self.config.auto_find_installed_editors() if self.config.should_show_found_editors() else []
+        self.found_editor_paths = self.config.auto_find_installed_editors() or [] if self.config.should_show_found_editors() else []
 
 
     def __on_add_editor_click(self, e):
