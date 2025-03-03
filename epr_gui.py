@@ -76,11 +76,10 @@ class EprGUI:
         # self.config.repo_editor_dict[self.config.target_dir] = self.get_selected_option_path()
         target_dir = self.config.target_dir
         editor_path = self.get_selected_option_path()
-
         print(f"Setting {target_dir} to {editor_path}!")
+
         self.config.repo_editor_dict[target_dir] = editor_path
         self.config.save_data()
-
         self.window.destroy()
 
 
