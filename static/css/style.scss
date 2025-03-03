@@ -47,23 +47,12 @@ main
     width: 100%;
     height: 100%;
     max-width: 400px;
+    font-size: 15px;
 
     & > *
     {
         width: 100%;
-        font-family: inherit;
-
-        &:not(h1)
-        {
-            font-size: 15px;
-        }
     }
-}
-
-
-#explanation-text
-{
-    font-size: 15px;
 }
 
 
@@ -80,36 +69,57 @@ main
         width: 100%;
         display: inherit;
         padding: 3px 0;
-        //justify-content: inherit;
-        //align-items: inherit;
 
         label
         {
+            font-family: inherit;
             margin-right: 5px;
         }
     }
 }
 
 
-button, select
+select, button
 {
     padding: 3px 5px;
     border-radius: 5px;
-    min-width: 20px;
     min-height: 20px;
+    font-family: inherit;
+}
 
-    &:is(button)
+
+select#editor-select
+{
+    width: 100%;
+    min-width: 100px;
+    margin-right: 10px;
+    font-size: 13px;
+}
+
+
+button
+{
+    min-width: 30px;
+    font-weight: 500;
+    font-size: 15px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &:hover
     {
-        &:hover
-        {
-            cursor: pointer;
-        }
+        cursor: pointer;
     }
 
-    &#editor-select
+    &#add-editor-button, #remove-editor-button
     {
-        width: 100%;
-        margin-right: 10px;
+        font-size: 17px;
+
+        &#add-editor-button
+        {
+            margin-left: 5px;
+        }
     }
 
     &#submit

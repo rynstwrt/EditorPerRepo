@@ -5,7 +5,7 @@ from config_manager import ConfigManager
 
 
 class EprGUI:
-    __WINDOW_SIZE = (500, 300)
+    __WINDOW_SIZE = (600, 280)
 
 
     def __init__(self):
