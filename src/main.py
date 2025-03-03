@@ -41,10 +41,4 @@ def run():
 
 
 if __name__ == "__main__":
-    print()
-    print("platform:", sys.platform)
-    print("epr.data:", Path("epr.data").resolve())
-    print("file epr.data:", Path(__file__).parent.joinpath("epr.data").resolve())
-    EprPopup().show(EprPopupTypes.SUBMIT_WITH_NO_SELECTED)
-    print()
-    # run()
+    run()
