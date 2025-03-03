@@ -14,9 +14,7 @@ class EprGUI:
         self.editor_select: Element = None
 
         self.config = ConfigManager()
-        self.editors = self.config.editors or []
-        if self.config.should_show_found_editors():
-            self.editors += self.config.auto_find_installed_editors()
+        self.editors = (self.config.editors or []) + (self.config.auto_find_installed_editors() or [])
 
 
     def __on_add_editor_click(self, e):
@@ -75,7 +73,7 @@ class EprGUI:
         [self.add_select_option(option) for option in self.editors]
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
-        self.show_found_checkbox.attributes["checked"] = self.config.should_show_found_editors()
+        self.show_found_checkbox.attributes["checked"] = True if self.config.should_show_found_editors() else None
         self.show_found_checkbox.on("change", self.__on_show_found_checkbox_change)
         self.__hide_or_show_auto_found_editors()
 

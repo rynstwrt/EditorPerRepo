@@ -3,10 +3,14 @@ from os.path import expandvars
 from glob import glob
 from pathlib import Path
 from editor_entry import EditorEntry
+from epr_data import EprData
 import sys
+import pickle
 
 
 class ConfigManager:
+    __STORAGE_FILE_NAME = "epr.data"
+
     __COMMON_EDITOR_LOCATIONS = {
         "win32": [
             "%LOCALAPPDATA%/Programs/Microsoft VS Code/Code.exe",
@@ -32,16 +36,34 @@ class ConfigManager:
         self.last_used_show_found_editors = True
         self.editors = []
 
+        self.__load_saved_data()
 
-    # TODO:
+
+    # TODO: Save editors
     def __save_data(self):
         print("Saving:", self.editors, self.last_used_show_found_editors)
 
+        data = EprData(editors=[], last_used_show_found_editors=self.last_used_show_found_editors)
 
-    # TODO:
+        with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
+            pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
+            save_file.close()
+
+
     def __load_saved_data(self):
-        self.editors += []
-        self.last_used_show_found_editors = True
+        print("Loading saved data!")
+
+        if not Path(self.__STORAGE_FILE_NAME).exists():
+            print("Data file not found!")
+            return
+
+        with open(self.__STORAGE_FILE_NAME, "rb") as save_file:
+            data = pickle.load(save_file)
+            print(data)
+            save_file.close()
+
+            self.editors = data.editors
+            self.last_used_show_found_editors = data.show_found_editors
 
 
     def get_editors(self):
@@ -52,7 +74,6 @@ class ConfigManager:
     def add_editor(self, editor: EditorEntry):
         print(f"Saving editor path {editor.path}!")
         self.editors.append(editor)
-        self.__save_data()
 
 
     def auto_find_installed_editors(self):
@@ -73,3 +94,4 @@ class ConfigManager:
 
     def set_show_found_editors(self, value):
         self.last_used_show_found_editors = value
+        self.__save_data()
