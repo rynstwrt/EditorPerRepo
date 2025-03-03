@@ -3,22 +3,20 @@
 
 main
 {
-    justify-content: center;
-    align-items: center;
-    padding: 10px 40px;
-    font-family: inherit;
-    font-size: 17px;
-
-    //& > *
-    //{
-    //    width: 100%;
-    //}
+    margin-top: 12px;
 }
 
 
 h1
 {
-    padding-bottom: 15px;
+    margin-top: 10px;
+    margin-bottom: unset;
+}
+
+
+#explanation-text
+{
+    margin-bottom: 25px;
 }
 
 
@@ -28,7 +26,6 @@ h1
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin: 20px 0;
 
     .row
     {
@@ -38,9 +35,16 @@ h1
         width: 100%;
         padding: 5px 0;
 
+        &:nth-of-type(2)
+        {
+            justify-content: flex-start;
+        }
+
         label
         {
+            display: block;
             font-family: inherit;
+            font-size: 16px;
             margin-right: 5px;
         }
     }
@@ -49,6 +53,7 @@ h1
 
 select, button
 {
+    color: rgba(black, .83);
     box-shadow: 0 1px 3px rgba(black, 0.1);
 
     &:hover
@@ -62,14 +67,13 @@ select#editor-select
 {
     min-width: fit-content;
     max-width: 100%;
-    min-height: 25px;
+    min-height: 28px;
     margin-right: 5px;
     font-size: 13px;
     padding: 3px 5px;
     border-radius: 6px;
     font-family: inherit;
-    color: rgba(black, .85);
-    letter-spacing: 0.3px;
+
 
     option#auto-found-divider
     {
@@ -109,7 +113,7 @@ button
         padding: 3px 10px;
         margin-left: 5px;
         font-size: 15px;
-        font-weight: 500;
+        font-weight: 400;
         transition: background-color .08s ease-in, box-shadow .15s ease-in;
 
         &:hover
@@ -124,7 +128,7 @@ button
         width: 30px;
         height: 30px;
         background-color: transparent;
-        color: white;
+        color: $color-text-light;
         font-family: inherit;
         font-size: 20px;
         font-weight: 500;

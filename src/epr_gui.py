@@ -146,8 +146,8 @@ class EprGUI:
         # self.editor_select_divider.text = "-" * 25
         self.editor_select_divider.text = "\U00002500" * 30
 
-        editor_select_char_lengths = list(map(lambda o: len(o.text), self.editor_select.children))
-        self.editor_select.style["min-width"] = f"{max(editor_select_char_lengths)}ch"
+        # editor_select_char_lengths = list(map(lambda o: len(o.text), self.editor_select.children))
+        # self.editor_select.style["min-width"] = f"{max(editor_select_char_lengths)}ch"
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None

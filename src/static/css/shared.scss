@@ -1,3 +1,15 @@
+@import "fonts";
+
+
+$color-bg: #FF6600;
+$color-text-light: white;
+$color-header: rgba(red, 0.3);
+
+
+$font-1: "Rubik", sans-serif;  // Weights [300-900]
+$font-2: "Space Mono", monospace;  // Weights 400 and 700
+
+
 *
 {
     margin: 0;
@@ -19,9 +31,9 @@ body
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-color: #FF6600;
-    color: white;
-    font-family: sans-serif;
+    background-color: $color-bg;
+    color: $color-text-light;
+    font-family: $font-1;
 }
 
 
@@ -32,8 +44,15 @@ header
     align-items: center;
     width: 100%;
     height: 35px;
-    background-color: rgba(red, 0.3);
-    margin-bottom: 3px;
+    background-color: $color-header;
+    //margin-bottom: 3px;
+}
+
+
+h1
+{
+    font-family: $font-2;
+    margin-bottom: 5px;
 }
 
 
@@ -46,5 +65,6 @@ main
     height: 100%;
     text-align: center;
     font-family: inherit;
-    font-size: 15px;
+    font-size: 17px;
+    //padding: 10px 0;
 }
