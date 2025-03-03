@@ -11,13 +11,14 @@ class EprGUI:
     __WINDOW_HTML_PATH = "./static/index.html"
 
 
-    def __init__(self, config: ConfigManager = None):
+    def __init__(self, config: ConfigManager = None, target_dir: str = None):
         self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
                                                             resizable=False, easy_drag=True, frameless=True)
         self.editor_select: Element = None
 
         self.config = config or ConfigManager()
+        self.target_dir = target_dir
 
 
     def __add_select_option(self, entry):
@@ -81,11 +82,10 @@ class EprGUI:
 
 
     def __on_submit_click(self, _):
-        target_dir = self.config.target_dir
         editor_path = self.__get_selected_option_path()
-        print(f"Setting {target_dir} to {editor_path}!")
+        print(f"Setting {self.target_dir} to {editor_path}!")
 
-        self.config.repo_editor_dict[target_dir] = editor_path
+        self.config.repo_editor_dict[self.target_dir] = editor_path
         self.config.last_used_editor_path = self.__get_selected_option_path()
         self.config.save_data()
         self.window.destroy()
