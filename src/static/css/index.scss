@@ -1,14 +1,6 @@
 @import "shared";
 
 
-html, body
-{
-    //padding: 10px 40px;
-    //opacity: 0.5;
-    //background: rgba(orange, 0.3);
-}
-
-
 main
 {
     justify-content: center;
@@ -17,10 +9,10 @@ main
     font-family: inherit;
     font-size: 17px;
 
-    & > *
-    {
-        width: 100%;
-    }
+    //& > *
+    //{
+    //    width: 100%;
+    //}
 }
 
 
@@ -68,11 +60,8 @@ select, button
 
 select#editor-select
 {
-    //width: 100%;
-    //width: max-content;
     min-width: fit-content;
     max-width: 100%;
-    //max-width: fit-content;
     min-height: 25px;
     margin-right: 5px;
     font-size: 13px;
@@ -81,16 +70,6 @@ select#editor-select
     font-family: inherit;
     color: rgba(black, .85);
     letter-spacing: 0.3px;
-
-    option
-    {
-        //padding: 0 0;
-
-        //&:hover
-        //{
-        //    cursor: pointer;
-        //}
-    }
 
     option#auto-found-divider
     {
@@ -126,9 +105,6 @@ button
     &:not(#exit-button)
     {
         min-width: max-content;
-        //min-width: 25px;
-        //width: 100%;
-        //width: max-content;
         min-height: 100%;
         padding: 3px 10px;
         margin-left: 5px;

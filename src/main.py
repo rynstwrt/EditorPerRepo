@@ -20,7 +20,6 @@ def run():
         return EprPopup().show(EprPopupTypes.TARGET_DIR_NOT_EXIST, given_path=str(target_dir_path))
 
     config = ConfigManager()
-    config.repo_editor_dict = {}
 
     target_dir_editor = config.repo_editor_dict.get(target_dir_path)
     if not target_dir_editor:
