@@ -40,20 +40,35 @@ main {
   margin-top: 15px;
   text-align: center;
 }
-main > * {
-  width: 100%;
-}
 
 h1 {
-  padding-bottom: 15px;
+  margin-bottom: 20px;
 }
 
+#explanation-text {
+  background-color: rgba(0, 0, 0, 0.15);
+  padding: 15px 20px;
+  border-radius: 5px;
+}
 #explanation-text h3#popup-text-header {
-  color: red;
+  font-size: 19px;
   font-weight: 700;
+  letter-spacing: 2px;
+  margin-bottom: 3px;
 }
 #explanation-text p#popup-text {
-  font-size: 17px;
+  font-size: 18px;
+  margin-bottom: 15px;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+#explanation-text p#popup-details {
+  display: inline-block;
+  opacity: 0.75;
+  font-size: 16px;
+  font-style: italic;
+  word-break: break-word;
+  overflow-wrap: break-word;
 }
 
 button#exit-button {
