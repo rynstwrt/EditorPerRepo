@@ -34,8 +34,7 @@ class ConfigManager:
 
     def __init__(self, target_dir=None):
         self.target_dir = target_dir
-        self.__STORAGE_FILE_NAME = Path(__file__).parent.joinpath(self.__STORAGE_FILE_NAME).resolve()
-        # self.save_file_path = Path.cwd() / self.__STORAGE_FILE_NAME
+        self.storage_file_path = Path(__file__).parent.joinpath(self.__STORAGE_FILE_NAME).resolve()
 
         self.repo_editor_dict = {}
         self.editors = []
@@ -48,11 +47,11 @@ class ConfigManager:
     def __load_saved_data(self):
         print("Loading saved data!")
 
-        if not Path(self.__STORAGE_FILE_NAME).exists():
+        if not self.storage_file_path.exists():
             print("Data file not found!")
             return
 
-        with open(self.__STORAGE_FILE_NAME, "rb") as save_file:
+        with open(self.storage_file_path, "rb") as save_file:
             data = pickle.load(save_file)
             print(data)
             save_file.close()
@@ -72,7 +71,7 @@ class ConfigManager:
                        show_found_editors=self.show_found_editors,
                        last_used_editor_path=self.last_used_editor_path)
 
-        with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
+        with open(self.storage_file_path, "wb") as save_file:
             pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
             save_file.close()
 
