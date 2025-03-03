@@ -32,8 +32,7 @@ class ConfigManager:
     }
 
 
-    def __init__(self, target_dir=None):
-        self.target_dir = target_dir
+    def __init__(self):
         self.storage_file_path = Path(__file__).parent.joinpath(self.__STORAGE_FILE_NAME).resolve()
 
         self.repo_editor_dict = {}

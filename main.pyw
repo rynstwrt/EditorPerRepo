@@ -17,7 +17,7 @@ def run():
 
     print("Target dir:", target_dir_path)
 
-    config = ConfigManager(target_dir_path)
+    config = ConfigManager()
     # config.repo_editor_dict = {}
 
     target_dir_editor = config.repo_editor_dict.get(target_dir_path)
