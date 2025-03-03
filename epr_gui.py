@@ -29,7 +29,7 @@ class EprGUI:
         self.add_select_option(EditorEntry(path=file_select[0]))
 
 
-    def __on_remove_editor_click(self, e):
+    def __on_remove_editor_click(self, _):
         selected_option_path = self.get_select_value()
         print("Removing", selected_option_path)
 
@@ -40,6 +40,8 @@ class EprGUI:
         removed_option = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if removed_option:
             removed_option[0].remove()
+
+        self.config.save_data()
 
 
     def __hide_or_show_auto_found_editors(self):
@@ -64,7 +66,7 @@ class EprGUI:
         self.config.save_data()
 
 
-    def __on_submit_click(self, e):
+    def __on_submit_click(self, _):
         print(self.get_select_value())
 
 
