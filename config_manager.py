@@ -66,17 +66,6 @@ class ConfigManager:
             save_file.close()
 
 
-    def get_editors(self):
-        print("Getting saved editor paths...")
-        return self.editors
-
-
-    def add_editor(self, editor: EditorEntry):
-        print(f"Saving editor path {editor.path}!")
-        self.editors.append(editor)
-        self.__save_data()
-
-
     def auto_find_installed_editors(self):
         if sys.platform not in self.__COMMON_EDITOR_LOCATIONS.keys():
             return

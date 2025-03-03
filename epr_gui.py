@@ -14,7 +14,6 @@ class EprGUI:
         self.editor_select: Element = None
 
         self.config = ConfigManager()
-        self.editors = (self.config.editors or []) + (self.config.auto_find_installed_editors() or [])
 
 
     def __on_add_editor_click(self, e):
@@ -26,16 +25,18 @@ class EprGUI:
             return
 
         print(f"Selected file: {file_select}")
-        self.add_select_option(EditorEntry(path=file_select[0]))
+        editor = EditorEntry(path=file_select[0])
+        self.config.editors.append(editor)
+        self.add_select_option(editor)
 
 
     def __on_remove_editor_click(self, _):
         selected_option_path = self.get_select_value()
         print("Removing", selected_option_path)
 
-        selected_editor = list(filter(lambda editor: editor.path == selected_option_path, self.editors))
+        selected_editor = list(filter(lambda editor: editor.path == selected_option_path, self.config.editors))
         if selected_editor:
-            self.editors.remove(selected_editor[0])
+            self.config.editors.remove(selected_editor[0])
 
         removed_option = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if removed_option:
@@ -72,7 +73,7 @@ class EprGUI:
 
     def __bind_events(self, _):
         self.editor_select = self.window.dom.get_element("#editor-select")
-        [self.add_select_option(option) for option in self.editors]
+        [self.add_select_option(option) for option in self.config.editors]
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None
