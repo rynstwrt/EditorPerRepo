@@ -10,7 +10,7 @@ select: Element = None
 
 
 def get_saved_editor_paths():
-    return ["asdfasdf", "meme"]
+    return [f"Path {i + 1}" for i in range(10)]
 
 
 def get_select_value():
@@ -47,18 +47,14 @@ def on_add_editor_click(e):
 
 def on_submit_click(e):
     print(get_select_value())
-    # window.destroy()
-    # print(e["target"]["id"])
 
 
 def bind_events(_):
     global select
     select = window.dom.get_element("#editor-select")
+    [add_select_option(editor_path) for editor_path in get_saved_editor_paths()]
 
-    editor_paths = get_saved_editor_paths()
-    [add_select_option(editor_path) for editor_path in editor_paths]
-
-    window.dom.get_element("#submit-button").on("click", on_submit_click)
+    window.dom.get_element("#submit").on("click", on_submit_click)
     window.dom.get_element("#add-editor-button").on("click", on_add_editor_click)
 
 

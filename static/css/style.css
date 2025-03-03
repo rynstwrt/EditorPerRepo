@@ -20,10 +20,19 @@ body {
   align-items: center;
 }
 
-main {
+header {
+  width: 100%;
+  padding-top: 25px;
+  padding-bottom: 15px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
   align-items: center;
   text-align: center;
   width: 100%;
@@ -36,9 +45,6 @@ main > * {
 }
 main > *:not(h1) {
   font-size: 15px;
-}
-main h1 {
-  margin-bottom: 5px;
 }
 main #explanation-text {
   font-size: 15px;
@@ -55,15 +61,15 @@ main button, main select {
   min-width: 20px;
   min-height: 20px;
 }
+main button:is(button):hover, main select:is(button):hover {
+  cursor: pointer;
+}
 main button#editor-select, main select#editor-select {
   width: 100%;
   margin-right: 10px;
 }
-main button#submit-button, main select#submit-button {
+main button#submit, main select#submit {
   padding: 5px;
-}
-main button#submit-button:hover, main select#submit-button:hover {
-  cursor: pointer;
 }
 
 /*# sourceMappingURL=style.css.map */
