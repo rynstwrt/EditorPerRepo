@@ -2,6 +2,7 @@ from functools import reduce
 from os.path import expandvars
 from glob import glob
 from pathlib import Path
+from editor_entry import EditorEntry
 import sys
 
 
@@ -28,44 +29,47 @@ class ConfigManager:
 
 
     def __init__(self):
-        self.show_found_editors = True
-
-        self.editor_paths = []
+        self.last_used_show_found_editors = True
+        self.editors = []
 
 
     # TODO:
     def __save_data(self):
-        print("Saving:", self.editor_paths, self.show_found_editors)
+        print("Saving:", self.editors, self.last_used_show_found_editors)
 
 
     # TODO:
     def __load_saved_data(self):
-        self.editor_paths += []
-        self.show_found_editors = True
+        self.editors += []
+        self.last_used_show_found_editors = True
 
 
-    def get_editor_paths(self):
+    def get_editors(self):
         print("Getting saved editor paths...")
-        return self.editor_paths
+        return self.editors
 
 
-    def add_editor_path(self, editor_path):
-        print(f"Saving editor path {editor_path}!")
-        self.editor_paths.append(editor_path)
+    def add_editor(self, editor: EditorEntry):
+        print(f"Saving editor path {editor.path}!")
+        self.editors.append(editor)
         self.__save_data()
 
 
     def auto_find_installed_editors(self):
-        if sys.platform in self.__COMMON_EDITOR_LOCATIONS.keys():
-            search_location_paths = self.__COMMON_EDITOR_LOCATIONS[sys.platform]
-            found_editors = [glob(expandvars(editor_path), recursive=True) for editor_path in search_location_paths]
-            found_editors = reduce(lambda a, b: a + b, found_editors)
-            return list(map(lambda x: str(Path(x)), found_editors))
+        if sys.platform not in self.__COMMON_EDITOR_LOCATIONS.keys():
+            return
+
+        search_location_paths = self.__COMMON_EDITOR_LOCATIONS[sys.platform]
+        found_editor_paths = [glob(expandvars(editor_path), recursive=True) for editor_path in search_location_paths]
+        found_editor_paths = reduce(lambda a, b: a + b, found_editor_paths)
+        found_editor_paths = list(map(lambda x: str(Path(x)), found_editor_paths))
+
+        return list(map(lambda p: EditorEntry(p, True), found_editor_paths))
 
 
     def should_show_found_editors(self):
-        return self.show_found_editors
+        return self.last_used_show_found_editors
 
 
     def set_show_found_editors(self, value):
-        self.show_found_editors = value
+        self.last_used_show_found_editors = value

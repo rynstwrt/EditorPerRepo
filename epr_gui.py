@@ -2,6 +2,7 @@ import webview
 from webview.dom import ManipulationMode
 from webview.dom.element import Element
 from config_manager import ConfigManager
+from editor_entry import EditorEntry
 
 
 class EprGUI:
@@ -13,8 +14,9 @@ class EprGUI:
         self.editor_select: Element = None
 
         self.config = ConfigManager()
-        self.saved_editor_paths = self.config.get_editor_paths() or []
-        self.found_editor_paths = self.config.auto_find_installed_editors() or [] if self.config.should_show_found_editors() else []
+        self.editors = self.config.editors or []
+        if self.config.should_show_found_editors():
+            self.editors += self.config.auto_find_installed_editors()
 
 
     def __on_add_editor_click(self, e):
@@ -26,17 +28,16 @@ class EprGUI:
             return
 
         print(f"Selected file: {file_select}")
-        self.add_select_option(file_select[0])
+        self.add_select_option(EditorEntry(file_select[0]))
 
 
     def __on_remove_editor_click(self, e):
         selected_option_path = self.get_select_value()
         print("Removing", selected_option_path)
 
-        if selected_option_path in self.saved_editor_paths:
-            self.saved_editor_paths.remove(selected_option_path)
-        elif selected_option_path in self.found_editor_paths:
-            self.found_editor_paths.remove(selected_option_path)
+        selected_editor = list(filter(lambda editor: editor.path == selected_option_path, self.editors))
+        if selected_editor:
+            self.editors.remove(selected_editor[0])
 
         removed_option = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if removed_option:
@@ -71,8 +72,7 @@ class EprGUI:
 
     def __bind_events(self, _):
         self.editor_select = self.window.dom.get_element("#editor-select")
-        [self.add_select_option(editor_path) for editor_path in self.saved_editor_paths]
-        [self.add_select_option(found_editor_path, True) for found_editor_path in self.found_editor_paths]
+        [self.add_select_option(option) for option in self.editors]
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = self.config.should_show_found_editors()
@@ -90,10 +90,10 @@ class EprGUI:
             return options_with_key_value[0].text
 
 
-    def add_select_option(self, value, auto_found=False):
+    def add_select_option(self, entry):
         option_index = len(self.editor_select.children)
         self.editor_select.append(
-            f"<option value='{option_index}'{" auto_found=True" if auto_found else ""}>{value}</option>",
+            f"<option value='{option_index}' auto_found={entry.auto_found}>{entry.path}</option>",
             mode=ManipulationMode.FirstChild)
         self.editor_select.value = option_index
 
