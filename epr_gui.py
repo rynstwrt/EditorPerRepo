@@ -28,6 +28,7 @@ class EprGUI:
         editor = EditorEntry(path=file_select[0])
         self.config.editors.append(editor)
         self.add_select_option(editor)
+        self.config.save_data()
 
 
     def __on_remove_editor_click(self, _):
