@@ -10,7 +10,9 @@ class EprGUI:
 
 
     def __init__(self):
-        self.window: webview.Window = None
+        self.window: webview.Window = webview.create_window("EditorPerRepo","./static/index.html",
+                                            width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
+                                            resizable=False)
         self.editor_select: Element = None
 
         self.config = ConfigManager()
@@ -100,9 +102,5 @@ class EprGUI:
         self.editor_select.value = option_index
 
 
-    def create_window(self):
-        self.window = webview.create_window("EditorPerRepo","./static/index.html",
-                                            width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
-                                            resizable=False)
-
+    def show(self):
         webview.start(self.__bind_events, self.window)

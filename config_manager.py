@@ -56,8 +56,8 @@ class ConfigManager:
 
 
     def save_data(self):
-        print("Saving:", self.editors, self.show_found_editors)
-
+        print("Saving data")
+        
         non_found_editors = [editor for editor in self.editors if not editor.auto_found]
         data = EprData(editors=non_found_editors, show_found_editors=self.show_found_editors)
 
