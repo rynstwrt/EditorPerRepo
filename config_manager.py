@@ -40,10 +40,10 @@ class ConfigManager:
         self.show_found_editors = True
         self.last_used_editor_path = None
 
-        self.__load_saved_data()
+        self.__load_data()
 
 
-    def __load_saved_data(self):
+    def __load_data(self):
         print("Loading saved data!")
 
         if not self.storage_file_path.exists():
