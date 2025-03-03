@@ -31,19 +31,14 @@ class EprGUI:
 
     def __on_remove_editor_click(self, e):
         selected_option_path = self.get_select_value()
-        if selected_option_path not in self.saved_editor_paths + self.found_editor_paths:
-            return
-
         print("Removing", selected_option_path)
-        # self.saved_editor_paths.remove(selected_option_path) if selected_option_path in self.saved_editor_paths else self.found_editor_paths.remove(selected_option_path)
+
         if selected_option_path in self.saved_editor_paths:
             self.saved_editor_paths.remove(selected_option_path)
         elif selected_option_path in self.found_editor_paths:
             self.found_editor_paths.remove(selected_option_path)
 
-        # TODO: list index out of range "return self.editor_select.children[select_child_index].text"
-        removed_option = list(filter(lambda option: option.value == self.editor_select.value, self.editor_select.children))
-        print(removed_option)
+        removed_option = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
         if removed_option:
             removed_option[0].remove()
 
@@ -90,12 +85,9 @@ class EprGUI:
 
 
     def get_select_value(self):
-        selected_value = self.editor_select.value
-        if not selected_value.isdigit():
-            return selected_value
-
-        select_child_index = len(self.editor_select.children) - int(selected_value) - 1
-        return self.editor_select.children[select_child_index].text
+        options_with_key_value = list(filter(lambda o: o.value == self.editor_select.value, self.editor_select.children))
+        if options_with_key_value:
+            return options_with_key_value[0].text
 
 
     def add_select_option(self, value, auto_found=False):
