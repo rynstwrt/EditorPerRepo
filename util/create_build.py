@@ -1,3 +1,4 @@
+import sys
 import subprocess
 import PyInstaller.__main__
 from pathlib import Path
@@ -78,10 +79,15 @@ class BuildCreator:
 
         if get_pyi_cmd and (get_pyi_cmd in [self.PYI_CMD_TYPE.RETURN, True] or get_pyi_cmd not in self.PYI_CMD_TYPE):
             return self.pyinstaller_command
+        else:
+            return
 
 
 if __name__ == "__main__":
+    create_exec = False
+    run_exec = False
+
     BuildCreator().run(
         # get_pyi_cmd=BuildCreator.PYI_CMD_TYPE.PRINT_ONLY,
-        create_exec=False,
-        run_exec=True)
+        create_exec="--create" in sys.argv or create_exec,
+        run_exec="--run" in sys.argv or create_exec)
