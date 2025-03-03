@@ -1,0 +1,69 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  background-color: #FF6600;
+  color: white;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  max-width: 400px;
+}
+main > * {
+  width: 100%;
+  font-family: inherit;
+}
+main > *:not(h1) {
+  font-size: 15px;
+}
+main h1 {
+  margin-bottom: 5px;
+}
+main #explanation-text {
+  font-size: 15px;
+}
+main #select-div {
+  margin: 20px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+main button, main select {
+  padding: 3px 5px;
+  border-radius: 5px;
+  min-width: 20px;
+  min-height: 20px;
+}
+main button#editor-select, main select#editor-select {
+  width: 100%;
+  margin-right: 10px;
+}
+main button#submit-button, main select#submit-button {
+  padding: 5px;
+}
+main button#submit-button:hover, main select#submit-button:hover {
+  cursor: pointer;
+}
+
+/*# sourceMappingURL=style.css.map */
