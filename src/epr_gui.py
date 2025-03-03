@@ -17,25 +17,41 @@ class EprGUI:
                                                             width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
                                                             resizable=False, easy_drag=True, frameless=True)
         self.editor_select: Element = None
+        self.editor_select_divider: Element = None
 
         self.config = config or ConfigManager()
         self.target_dir = target_dir
 
 
+    def __get_editor_select_children(self, remove_auto_found=False):
+        children = self.editor_select.children
+
+        clean_children = list(filter(lambda c: c.id != "auto-found-divider", children))
+        if not remove_auto_found:
+            return clean_children
+
+        return list(filter(lambda c: not c.attributes.get("auto-found"), clean_children))
+
+
     def __add_select_option(self, entry):
-        option_index = len(self.editor_select.children)
-        self.editor_select.append(
-            f"<option value='{option_index}' auto_found={entry.auto_found}>{entry.path}</option>",
+        clean_editor_select_children = self.__get_editor_select_children()
+        option_index = len(clean_editor_select_children)
+        added_option = self.editor_select.append(
+            f"<option value='{option_index}'>{entry.path}</option>",
             mode=ManipulationMode.FirstChild)
-        self.editor_select.value = option_index
+
+        if entry.auto_found:
+            added_option.attributes["auto-found"] = True
+
+        self.editor_select.value = added_option.value
 
 
     def __hide_or_show_auto_found_editors(self):
         for child in self.editor_select.children:
-            if child.attributes.get("auto_found"):
+            if child.attributes.get("auto-found"):
                 child.show() if self.config.show_found_editors else child.hide()
 
-        visible_options = [option for option in self.editor_select.children if option.style["display"] != "none"]
+        visible_options = list(filter(lambda o: o.style["display"] != "none", self.__get_editor_select_children()))
         if not visible_options:
             self.editor_select.value = None
             return
@@ -43,6 +59,22 @@ class EprGUI:
         visible_option_selected = list(filter(lambda option: option.value == self.editor_select.value, visible_options))
         if not visible_option_selected:
             self.editor_select.value = visible_options[0].value
+
+
+    def __hide_or_show_auto_found_select_divider(self):
+        if not self.config.show_found_editors:
+            return self.editor_select_divider.hide()
+
+        clean_manual_editor_select_children = self.__get_editor_select_children(remove_auto_found=True)
+        if not clean_manual_editor_select_children:
+            self.editor_select_divider.hide()
+            return
+
+        first_added_not_auto_found_editor = clean_manual_editor_select_children[len(clean_manual_editor_select_children) - 1]
+        auto_found_stop_index = clean_manual_editor_select_children.index(first_added_not_auto_found_editor)
+
+        self.editor_select_divider.move(target=self.editor_select.children[auto_found_stop_index], mode=ManipulationMode.After)
+        self.editor_select_divider.show()
 
 
     def __on_add_editor_click(self, e):
@@ -57,6 +89,9 @@ class EprGUI:
         editor = EditorEntry(path=file_select[0])
         self.config.editors.append(editor)
         self.__add_select_option(editor)
+        # TODO: Needed?
+        self.__hide_or_show_auto_found_editors()
+        self.__hide_or_show_auto_found_select_divider()
         self.config.save_data()
 
 
@@ -73,12 +108,14 @@ class EprGUI:
             removed_option[0].remove()
 
         self.config.save_data()
+        self.__hide_or_show_auto_found_select_divider()
 
 
     def __on_show_found_checkbox_change(self, e):
         self.config.show_found_editors = e["target"]["checked"]
         print("Show found editors set to:", self.config.show_found_editors)
         self.__hide_or_show_auto_found_editors()
+        self.__hide_or_show_auto_found_select_divider()
         self.config.save_data()
 
 
@@ -100,10 +137,13 @@ class EprGUI:
         self.editor_select = self.window.dom.get_element("#editor-select")
         [self.__add_select_option(option) for option in self.config.editors]
 
+        self.editor_select_divider = self.window.dom.get_element("option#auto-found-divider")
+
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
         self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None
         self.show_found_checkbox.on("change", self.__on_show_found_checkbox_change)
         self.__hide_or_show_auto_found_editors()
+        self.__hide_or_show_auto_found_select_divider()
 
         last_used_editors = list(filter(lambda option: option.text == self.config.last_used_editor_path, self.editor_select.children))
         if last_used_editors:

@@ -60,6 +60,11 @@ select#editor-select
     min-width: 100px;
     margin-right: 5px;
     font-size: 13px;
+
+    option#auto-found-divider
+    {
+        //display: none;
+    }
 }
 
 

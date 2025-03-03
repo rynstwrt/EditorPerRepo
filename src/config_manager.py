@@ -27,8 +27,8 @@ class ConfigManager:
             "%APPDATA%/Sublime Text/sublime_text.exe",
             "C:/Program Files/Notepad++/notepad++.exe"
         ],
-        "darwin": [],
-        "linux": []
+        "darwin": [],  # TODO: add auto editor search for Mac
+        "linux": []  # TODO: add auto editor search for Linux
     }
 
 
@@ -52,12 +52,11 @@ class ConfigManager:
 
         with open(self.storage_file_path, "rb") as save_file:
             data = pickle.load(save_file)
-            print(data)
+            print("DATA:", data)
             save_file.close()
 
             self.repo_editor_dict = data.repo_editor_dict
             self.editors.extend(data.editors)
-            # self.editors = self.auto_find_installed_editors() + data.editors
             self.show_found_editors = data.show_found_editors
             self.last_used_editor_path = data.last_used_editor_path if hasattr(data, "last_used_editor_path") else self.last_used_editor_path
 
@@ -81,7 +80,6 @@ class ConfigManager:
             return
 
         search_location_paths = self.__COMMON_EDITOR_LOCATIONS[sys.platform]
-        # found_editor_paths = [glob(expandvars(editor_path), recursive=True) for editor_path in search_location_paths]
         found_editor_paths = [glob(str(Path(expandvars(editor_path)).resolve()), recursive=True) for editor_path in search_location_paths]
         found_editor_paths = reduce(lambda a, b: a + b, found_editor_paths)
         found_editor_paths = list(map(lambda x: str(Path(x)), found_editor_paths))
