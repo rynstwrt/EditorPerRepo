@@ -6,13 +6,15 @@ from editor_entry import EditorEntry
 
 
 class EprGUI:
+    __WINDOW_TITLE = "EditorPerRepo"
     __WINDOW_SIZE = (600, 280)
+    __WINDOW_HTML_PATH = "./static/index.html"
 
 
     def __init__(self):
-        self.window: webview.Window = webview.create_window("EditorPerRepo","./static/index.html",
-                                            width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
-                                            resizable=False)
+        self.window: webview.Window = webview.create_window(self.__WINDOW_TITLE, self.__WINDOW_HTML_PATH,
+                                                            width=self.__WINDOW_SIZE[0], height=self.__WINDOW_SIZE[1],
+                                                            resizable=False)
         self.editor_select: Element = None
 
         self.config = ConfigManager()
