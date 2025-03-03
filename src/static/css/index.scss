@@ -53,12 +53,9 @@ h1
 }
 
 
-select, button:not(#exit-button)
+select, button
 {
-    //padding: 3px 5px;
-    //border-radius: 5px;
-    //min-height: 25px;
-    //font-family: inherit;
+    box-shadow: 0 1px 3px rgba(black, 0.1);
 }
 
 
@@ -71,7 +68,10 @@ select#editor-select
     margin-right: 5px;
     font-size: 13px;
     padding: 3px 5px;
-    border-radius: 5px;
+    border-radius: 6px;
+    font-family: inherit;
+    color: rgba(black, .85);
+    letter-spacing: 0.3px;
 
     option#auto-found-divider
     {
@@ -98,7 +98,6 @@ button
     padding: 3px 5px;
     border-radius: 5px;
     min-height: 25px;
-    //font-weight: bold;
 
     &:hover
     {
@@ -107,8 +106,6 @@ button
 
     &:not(#exit-button)
     {
-        //display: inline-block;
-        //min-width: 25px;
         min-width: max-content;
         //min-width: 25px;
         //width: 100%;
@@ -118,7 +115,13 @@ button
         margin-left: 5px;
         font-size: 15px;
         font-weight: 500;
-        //color: rgba(black, 0.9);
+        transition: background-color .08s ease-in, box-shadow .15s ease-in;
+
+        &:hover
+        {
+            box-shadow: 0 2px 5px rgba(black, 0.25);
+            background-color: darken(white, 2%);
+        }
     }
 
     &#exit-button
@@ -130,7 +133,7 @@ button
         font-family: inherit;
         font-size: 20px;
         font-weight: 500;
-        //padding: 5px;
+        padding: 5px;
         margin: 10px;
     }
 }
