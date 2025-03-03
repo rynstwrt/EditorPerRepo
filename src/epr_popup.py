@@ -10,7 +10,7 @@ class EprPopupTypes(Enum):
 
 
 class EprPopup:
-    __POPUP_TITLE = "EPR Popup"
+    __POPUP_TITLE = "EditorPerRepo Error"
     __POPUP_HTML_PATH = "static/popup.html"
     __POPUP_SIZE = (550, 300)
     __POPUP_TEXTS = {
