@@ -35,9 +35,12 @@ class EprGUI:
                 child.show() if self.config.should_show_found_editors() else child.hide()
 
         visible_options = [option for option in self.editor_select.children if option.style["display"] != "none"]
+        if not visible_options:
+            self.editor_select.value = None
+            return
 
         visible_option_selected = list(filter(lambda option: option.value == self.editor_select.value, visible_options))
-        if visible_options and not visible_option_selected:
+        if not visible_option_selected:
             self.editor_select.value = visible_options[0].value
 
 
