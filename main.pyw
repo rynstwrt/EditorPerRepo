@@ -17,6 +17,7 @@ def run():
 
     editor_path = Path(target_dir_editor)
     if not editor_path.exists():
+        # TODO: Keep reopening until a valid selection is made OR until canceled
         # EprGUI(config).show()
         return print(f"Selected editor for this repo ({editor_path}) does not exist!")
 
