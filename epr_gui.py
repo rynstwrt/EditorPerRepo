@@ -36,8 +36,8 @@ class EprGUI:
 
         visible_options = [option for option in self.editor_select.children if option.style["display"] != "none"]
 
-        selected_visible_options = [option for option in visible_options if self.editor_select.value == option.value]
-        if visible_options and not selected_visible_options:
+        visible_option_selected = list(filter(lambda option: option.value == self.editor_select.value, visible_options))
+        if visible_options and not visible_option_selected:
             self.editor_select.value = visible_options[0].value
 
 
