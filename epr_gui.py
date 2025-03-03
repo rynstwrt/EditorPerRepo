@@ -45,7 +45,7 @@ class EprGUI:
     def __hide_or_show_auto_found_editors(self):
         for child in self.editor_select.children:
             if child.attributes.get("auto_found"):
-                child.show() if self.config.should_show_found_editors() else child.hide()
+                child.show() if self.config.show_found_editors else child.hide()
 
         visible_options = [option for option in self.editor_select.children if option.style["display"] != "none"]
         if not visible_options:
@@ -58,10 +58,10 @@ class EprGUI:
 
 
     def __on_show_found_checkbox_change(self, e):
-        is_checked = e["target"]["checked"]
-        self.config.set_show_found_editors(is_checked)
-        print("Show found editors set to:", self.config.should_show_found_editors())
+        self.config.show_found_editors = e["target"]["checked"]
+        print("Show found editors set to:", self.config.show_found_editors)
         self.__hide_or_show_auto_found_editors()
+        self.config.save_data()
 
 
     def __on_submit_click(self, e):
@@ -73,7 +73,7 @@ class EprGUI:
         [self.add_select_option(option) for option in self.editors]
 
         self.show_found_checkbox: Element = self.window.dom.get_element("#show-found-checkbox")
-        self.show_found_checkbox.attributes["checked"] = True if self.config.should_show_found_editors() else None
+        self.show_found_checkbox.attributes["checked"] = True if self.config.show_found_editors else None
         self.show_found_checkbox.on("change", self.__on_show_found_checkbox_change)
         self.__hide_or_show_auto_found_editors()
 

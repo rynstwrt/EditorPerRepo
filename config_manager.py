@@ -33,21 +33,10 @@ class ConfigManager:
 
 
     def __init__(self):
-        self.last_used_show_found_editors = True
+        self.show_found_editors = True
         self.editors = []
 
         self.__load_saved_data()
-
-
-    # TODO: Save editors
-    def __save_data(self):
-        print("Saving:", self.editors, self.last_used_show_found_editors)
-
-        data = EprData(editors=[], last_used_show_found_editors=self.last_used_show_found_editors)
-
-        with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
-            pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
-            save_file.close()
 
 
     def __load_saved_data(self):
@@ -63,7 +52,18 @@ class ConfigManager:
             save_file.close()
 
             self.editors = data.editors
-            self.last_used_show_found_editors = data.show_found_editors
+            self.show_found_editors = data.show_found_editors
+
+
+    # TODO: Save editors
+    def save_data(self):
+        print("Saving:", self.editors, self.show_found_editors)
+
+        data = EprData(editors=[], show_found_editors=self.show_found_editors)
+
+        with open(self.__STORAGE_FILE_NAME, "wb") as save_file:
+            pickle.dump(data, save_file, pickle.HIGHEST_PROTOCOL)
+            save_file.close()
 
 
     def get_editors(self):
@@ -74,6 +74,7 @@ class ConfigManager:
     def add_editor(self, editor: EditorEntry):
         print(f"Saving editor path {editor.path}!")
         self.editors.append(editor)
+        self.__save_data()
 
 
     def auto_find_installed_editors(self):
@@ -86,12 +87,3 @@ class ConfigManager:
         found_editor_paths = list(map(lambda x: str(Path(x)), found_editor_paths))
 
         return list(map(lambda p: EditorEntry(p, True), found_editor_paths))
-
-
-    def should_show_found_editors(self):
-        return self.last_used_show_found_editors
-
-
-    def set_show_found_editors(self, value):
-        self.last_used_show_found_editors = value
-        self.__save_data()
