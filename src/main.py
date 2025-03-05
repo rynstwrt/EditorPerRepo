@@ -29,7 +29,7 @@ if __name__ == "__main__":
                        size=DEFAULT_WINDOW_SIZE,
                        element_justification="c",
                        font=FONT,
-                       element_padding=ELEMENT_PADDING)
+                       element_padding=0)
 
     selected_editor = None
     while True:
