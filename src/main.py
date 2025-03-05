@@ -1,37 +1,5 @@
 import FreeSimpleGUI as sg
-
-
-WINDOW_TITLE = "EditorPerRepo"
-DEFAULT_WINDOW_SIZE = (500, 300)
-WARNING_POPUP_TITLE = "WARNING"
-
-FONT = ("Helvetica Neue Light", 14)
-
-EDITOR_LIST_KEY = "editor-list"
-SUBMIT_KEY = "submit-button"
-
-THEME = "Dark Grey 15"
-sg.theme(THEME)
-
-
-LAYOUT = [
-    [sg.VPush()],
-    [sg.Text("Please select an editor to open this repository with:")],
-    [
-        sg.Listbox(key=EDITOR_LIST_KEY,
-                   values=[1, 2, 3, 4],
-                   expand_x=True,
-                   expand_y=False,
-                   size=(None, 5),
-                   font=(FONT[0], FONT[1] - 2),
-                   select_mode=sg.SELECT_MODE_SINGLE)
-    ],
-    [
-        sg.Button("Cancel"),
-        sg.Button(key=SUBMIT_KEY, button_text="Submit")
-    ],
-    [sg.VPush()]
-]
+from constants import *
 
 
 def make_warning_popup(reason):
@@ -60,7 +28,8 @@ if __name__ == "__main__":
                        layout=LAYOUT,
                        size=DEFAULT_WINDOW_SIZE,
                        element_justification="c",
-                       font=FONT)
+                       font=FONT,
+                       element_padding=ELEMENT_PADDING)
 
     selected_editor = None
     while True:
@@ -69,6 +38,9 @@ if __name__ == "__main__":
         if event == sg.WINDOW_CLOSED or event == "Cancel":
             break
 
+        if event == OPEN_CONFIG_KEY:
+            on_open_config_press()
+
         if event == SUBMIT_KEY:
             selected_editor = on_submit_button_press(values)
             if selected_editor:
@@ -76,6 +48,5 @@ if __name__ == "__main__":
 
     if selected_editor:
         print("VALID SELECTED:", selected_editor)
-
 
     window.close()
