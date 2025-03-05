@@ -1,0 +1,11 @@
+[[editor]]
+name="Pycharm"
+path="C:/Program Files/JetBrains/*/*/pycharm64.exe"
+
+[[editor]]
+name="Webstorm"
+path="C:/Program Files/JetBrains/*/*/webstorm64.exe"
+
+[[editor]]
+name="VSCode"
+path="%LocalAppData%/Programs/Microsoft VS Code/Code.exe"
