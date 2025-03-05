@@ -2,7 +2,7 @@ from constants import *
 import FreeSimpleGUI as sg
 
 
-class ErpGui():
+class ErpGui:
     def __init__(self, list_menu_items):
         self.list_menu_items = list_menu_items
 

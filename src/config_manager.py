@@ -2,7 +2,7 @@ import tomllib as toml
 from pathlib import Path
 
 
-class ConfigManager():
+class ConfigManager:
     def __init__(self, config_file):
         self.config_file = config_file
 
