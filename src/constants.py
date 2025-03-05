@@ -1,9 +1,4 @@
-from pathlib import Path
-
 import FreeSimpleGUI as sg
-import tomllib as toml
-
-from src.main import make_warning_popup
 
 
 CONFIG_FILE = "./epr-config.toml"

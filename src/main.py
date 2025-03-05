@@ -1,6 +1,5 @@
-import tomllib as toml
-from pathlib import Path
 from constants import *
+from config_manager import ConfigManager
 
 
 def make_warning_popup(reason):
@@ -10,35 +9,14 @@ def make_warning_popup(reason):
              button_type=sg.POPUP_BUTTONS_ERROR)
 
 
-def on_submit_button_press():
+def on_submit_button_press(selected_editor):
     print("ayy", selected_editor)
 
 
-def on_open_config_press():
-    print("open config")
+def on_open_config_press(selected_editor):
+    print("open config in", selected_editor)
 
 
-def load_config():
-    config_path = Path(__file__).parent / Path(CONFIG_FILE)
-    if not config_path.exists():
-        return False, f"Error finding config! Path given: {config_path}"
-
-    try:
-        with open(config_path, "rb") as file:
-            config_data = toml.load(file)
-            file.close()
-    except Exception as err:
-        print(err)
-        return False, "Error while reading config!"
-
-    editors = config_data["editor"]
-    if not editors:
-        return False, "No editors were found in the config!"
-
-    return True, editors
-
-
-window = None
 def create_window(list_menu_items):
     layout = [
         [sg.Text("Please select an editor to open this directory:")],
@@ -63,7 +41,6 @@ def create_window(list_menu_items):
         ],
     ]
 
-    global window
     window = sg.Window(WINDOW_TITLE,
                        layout=layout,
                        size=DEFAULT_WINDOW_SIZE,
@@ -71,36 +48,38 @@ def create_window(list_menu_items):
                        font=FONT,
                        margins=(7, 7))
 
+    return window
 
-if __name__ == "__main__":
-    list_menu_items = []
-    success, config_data = load_config()
+
+def main():
+    config_manager = ConfigManager(CONFIG_FILE)
+    success, config_data = config_manager.load_config()
+
     if not success:
-        make_warning_popup(str(CONFIG_FILE))
-    else:
-        editor_paths = [editor["path"] for editor in config_data]
-        create_window(editor_paths)
+        return make_warning_popup(str(config_data))
 
-        selected_editor = None
-        while True:
-            event, values = window.read()
+    editor_paths = [editor["path"] for editor in config_data]
+    window = create_window(editor_paths)
 
-            if event == sg.WINDOW_CLOSED or event == "Cancel":
-                break
+    while True:
+        event, values = window.read()
 
-            if event in [SUBMIT_KEY, OPEN_CONFIG_KEY]:
-                selected_editor = window[EDITOR_LIST_KEY].get()
-                if not not selected_editor:
-                    selected_editor = selected_editor[0]
+        if event == sg.WINDOW_CLOSED or event == "Cancel":
+            break
 
-                    if event == SUBMIT_KEY:
-                        on_submit_button_press()
-                    elif event == OPEN_CONFIG_KEY:
-                        on_open_config_press()
-                else:
-                    make_warning_popup("No editor is selected!")
+        if event in [SUBMIT_KEY, OPEN_CONFIG_KEY]:
+            selected_editor = window[EDITOR_LIST_KEY].get()
+            if not selected_editor:
+                make_warning_popup("No editor is selected!")
+                continue
 
-        if selected_editor:
-            print("VALID SELECTED:", selected_editor)
+            if event == SUBMIT_KEY:
+                on_submit_button_press(selected_editor[0])
+            elif event == OPEN_CONFIG_KEY:
+                on_open_config_press(selected_editor[0])
 
     window.close()
+
+
+if __name__ == "__main__":
+    main()
