@@ -158,3 +158,4 @@ cython_debug/
 # EditorPerRepoGUI additions
 /backups
 epr.data
+/node_modules
