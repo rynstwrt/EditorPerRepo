@@ -34,15 +34,14 @@ def main():
     config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
     epr_config = EprConfig()
     try:
-        config_data = epr_config.load_config(config_path)
+        epr_config.load_config(config_path)
     except Exception as err:
         return print(err)
 
-    if not config_data:
-        return EprGui.make_warning_popup(str(config_data))
+    # if not config_data:
+        # return EprGui.make_warning_popup(str(config_data))
 
-    editors = config_data["editors"]
-
+    editors = epr_config.get_editors()
     window = EprGui(editors).create_window()
 
     while True:
@@ -59,12 +58,15 @@ def main():
 
             selected_editor_name = selected_editor_name[0]
 
-            selected_editor_path_matches = [editor["editor_path"] for editor in editors if selected_editor_name == editor["name"]]
+            selected_editor_by_name = epr_config.get_editor_from_name(selected_editor_name)
+            selected_editor_path_matches = selected_editor_by_name["editor_path"]
             if not selected_editor_path_matches:
                 EprGui.make_warning_popup("No editor paths are assigned to that editor!")
                 continue
 
-            selected_editor_path = EprUtil.get_parsed_abs_path(selected_editor_path_matches[0], Path(__file__).parent)
+            epr_config.add_dir_to_associations(selected_editor_name, selected_editor_path_matches)
+
+            selected_editor_path = EprUtil.get_parsed_abs_path(selected_editor_path_matches, Path(__file__).parent)
 
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor_path, target_dir_path)
