@@ -49,14 +49,9 @@ def main():
                 ErpGui.make_warning_popup("No editor is selected!")
                 continue
 
-            print(selected_editor_given_path[0])
-
             glob_search = glob(selected_editor_given_path[0], recursive=True)
-            glob_search = glob_search or selected_editor_given_path
-            print(glob_search)
-
-            selected_editor = expandvars(Path(glob_search[0]))
-            print(selected_editor)
+            selected_editor = glob_search or selected_editor_given_path
+            selected_editor = expandvars(Path(selected_editor[0]))
 
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor, target_path)
