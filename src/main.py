@@ -1,5 +1,6 @@
 import sys
 import subprocess
+from glob import glob
 from os.path import expandvars
 from pathlib import Path
 from constants import *
@@ -48,7 +49,15 @@ def main():
                 ErpGui.make_warning_popup("No editor is selected!")
                 continue
 
-            selected_editor = Path(expandvars(selected_editor_given_path[0]))
+            print(selected_editor_given_path[0])
+
+            glob_search = glob(selected_editor_given_path[0], recursive=True)
+            glob_search = glob_search or selected_editor_given_path
+            print(glob_search)
+
+            selected_editor = expandvars(Path(glob_search[0]))
+            print(selected_editor)
+
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor, target_path)
             elif event == OPEN_CONFIG_KEY:
