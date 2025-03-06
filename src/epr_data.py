@@ -3,15 +3,27 @@ from constants import STORAGE_FILE
 from pathlib import Path
 
 
-class ErpData:
-    def __init__(self):
-        self.storage_file = Path()
-        self.associations = []
+class EprData:
+    def __init__(self, util):
+        self._util = util
+        self._storage_file_path = Path()
+        self._associations = []
+
+
+    def set_associations(self, association_list):
+        print(f"Setting association list to {association_list}!")
+        self._associations = association_list
+
+
+    def get_associations(self):
+        return self._associations
 
 
     def save_associations(self):
-        print(self.associations)
+        print("Saving association list!")
+        print(self._associations)
 
 
     def load_associations(self):
-        print(self.associations)
+        print("Loading association list!")
+        print(self._associations)

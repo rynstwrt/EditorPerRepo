@@ -1,24 +1,29 @@
 import tomllib as toml
 from pathlib import Path
+from tomllib import TOMLDecodeError
 
 
-class ConfigManager:
-    def __init__(self, config_file):
-        self.config_file = config_file
-        self.config_path = Path(__file__).parent / Path(self.config_file)
+class EprConfig:
+    def __init__(self, config_file, util):
+        self._config_file = config_file
+        self._util = util
+        self._config_path = Path(__file__).parent / Path(self._config_file)
 
 
     def load_config(self):
-        if not self.config_path.exists():
-            return False, f"Error finding config! Path given: {self.config_path}"
+        if not self._config_path.exists():
+            return False, f"Error finding config! Path given: {self._config_path}"
 
         try:
-            with open(self.config_path, "rb") as file:
-                config_data = toml.load(file)
-                file.close()
-        except Exception as err:
+            file = open(self._config_path, "rb")
+            config_data = toml.load(file)
+            file.close()
+        except OSError as err:
             print(err)
             return False, "Error while reading config!"
+        except TOMLDecodeError as err:
+            print(err)
+            return False, "Error while parsing config TOML! (Check your config)"
 
         editors = config_data["editor"]
         if not editors:
@@ -28,4 +33,4 @@ class ConfigManager:
 
 
     def get_config_path(self):
-        return self.config_path
+        return self._config_path

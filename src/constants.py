@@ -1,6 +1,3 @@
-import FreeSimpleGUI as sg
-
-
 CONFIG_FILE = "./epr-config.toml"
 STORAGE_FILE = "./epr.data"
 
@@ -16,9 +13,3 @@ OPEN_CONFIG_KEY = "config-button"
 SUBMIT_KEY = "submit-button"
 
 THEME = "Dark Grey 15"
-sg.theme(THEME)
-
-
-
-
-

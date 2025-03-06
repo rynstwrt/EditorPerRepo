@@ -2,9 +2,9 @@ from constants import *
 import FreeSimpleGUI as sg
 
 
-class ErpGui:
+class EprGui:
     def __init__(self, list_menu_items):
-        self.list_menu_items = list_menu_items
+        self._list_menu_items = list_menu_items
 
 
     def create_window(self):
@@ -12,7 +12,7 @@ class ErpGui:
             [sg.Text("Please select an editor to open this directory:")],
             [
                 sg.Listbox(key=EDITOR_LIST_KEY,
-                           values=self.list_menu_items,
+                           values=self._list_menu_items,
                            expand_x=True,
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
@@ -31,14 +31,12 @@ class ErpGui:
             ],
         ]
 
-        window = sg.Window(WINDOW_TITLE,
-                           layout=layout,
-                           size=DEFAULT_WINDOW_SIZE,
-                           element_justification="c",
-                           font=FONT,
-                           margins=(7, 7))
-
-        return window
+        return sg.Window(WINDOW_TITLE,
+                         layout=layout,
+                         size=DEFAULT_WINDOW_SIZE,
+                         element_justification="c",
+                         font=FONT,
+                         margins=(7, 7))
 
 
     @staticmethod
