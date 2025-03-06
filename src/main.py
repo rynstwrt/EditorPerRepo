@@ -13,11 +13,13 @@ def on_submit_button_press(selected_editor, target_path):
     print(Path(selected_editor).exists(), Path(target_path).exists())
     subprocess.Popen([selected_editor, target_path])
     epr_config.save_config()
+    sys.exit()
 
 
 def on_open_config_press(selected_editor, config_path):
     print(f"open {config_path} in {selected_editor}")
     subprocess.Popen([selected_editor, config_path])
+    sys.exit()
 
 
 def main():
