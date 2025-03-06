@@ -1,4 +1,4 @@
-from constants import *
+from util.constants import *
 import FreeSimpleGUI as sg
 
 

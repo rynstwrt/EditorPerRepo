@@ -4,10 +4,10 @@ from tomllib import TOMLDecodeError
 
 
 class EprConfig:
-    def __init__(self, config_file, util):
-        self._config_file = config_file
+    def __init__(self, config_path, util):
         self._util = util
-        self._config_path = Path(__file__).parent / Path(self._config_file)
+        self._config_path = util.get_absolute_parsed_path(config_path)
+    #     Path(__file__).parent / Path(config_path)
 
 
     def load_config(self):

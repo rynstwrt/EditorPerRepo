@@ -4,11 +4,11 @@ import FreeSimpleGUI as sg
 from glob import glob
 from os.path import expandvars
 from pathlib import Path
-from constants import *
+from util.constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
-from epr_util import EprUtil
-# from epr_data import EprData
+from util.epr_util import EprUtil
+from util.epr_data import EprData
 
 
 def on_submit_button_press(selected_editor, target_path):
@@ -39,8 +39,8 @@ def main():
     target_path = expandvars(given_path)
 
     # TODO: EprData
-    # epr_data = EprData(util)
-    epr_config = EprConfig(CONFIG_FILE, util)
+    epr_data = EprData(util)
+    epr_config = EprConfig(Path(__file__).parent / Path(CONFIG_FILE), util)
     success, config_data = epr_config.load_config()
 
     if not success:
