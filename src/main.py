@@ -4,8 +4,8 @@ from glob import glob
 from os.path import expandvars
 from pathlib import Path
 from constants import *
-from config_manager import ConfigManager
-from erp_gui import ErpGui
+from epr_config import ConfigManager
+from epr_gui import ErpGui
 
 
 def on_submit_button_press(selected_editor, target_path):
@@ -28,8 +28,8 @@ def main():
 
     target_path = expandvars(given_path)
 
-    config_manager = ConfigManager(CONFIG_FILE)
-    success, config_data = config_manager.load_config()
+    erp_config = ConfigManager(CONFIG_FILE)
+    success, config_data = erp_config.load_config()
 
     if not success:
         return ErpGui.make_warning_popup(str(config_data))
@@ -56,7 +56,7 @@ def main():
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor, target_path)
             elif event == OPEN_CONFIG_KEY:
-                on_open_config_press(selected_editor, config_manager.get_config_path())
+                on_open_config_press(selected_editor, erp_config.get_config_path())
 
             break
 
