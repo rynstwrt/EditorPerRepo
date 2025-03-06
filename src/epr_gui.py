@@ -3,8 +3,9 @@ import FreeSimpleGUI as sg
 
 
 class EprGui:
-    def __init__(self, list_menu_items):
-        self._list_menu_items = list_menu_items
+    def __init__(self, editors):
+        self._editors = editors
+        self._list_menu_items = [editor["name"] for editor in editors]
 
 
     def create_window(self):

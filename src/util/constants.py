@@ -1,5 +1,4 @@
-CONFIG_FILE = "./epr-config.toml"
-STORAGE_FILE = "./epr.data"
+CONFIG_FILE = "./epr-config.json"
 
 WINDOW_TITLE = "EditorPerRepo"
 DEFAULT_WINDOW_SIZE = (500, 250)

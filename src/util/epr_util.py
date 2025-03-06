@@ -1,19 +1,24 @@
+from glob import glob
+from os.path import expandvars
 from pathlib import Path
 
 
+class EprError(Exception):
+    pass
+
+
 class EprUtil:
-    def __init__(self, cwd_path, file_parent_path):
-        self._cwd_path = cwd_path
-        self._file_parent_path = file_parent_path
-        print(self._cwd_path, self._file_parent_path)
-        print(Path.cwd(), Path(__file__))
+    @staticmethod
+    def get_parsed_abs_path(target_path, root_path):
+        env_parsed = expandvars(target_path)
+        joined_path = root_path.joinpath(env_parsed)
+
+        glob_search = glob(str(joined_path), recursive=True)
+        glob_result = glob_search[0] if glob_search else joined_path
+
+        return Path(glob_result).resolve()
 
 
-    # FOR:
-    #   - Given path (from cwd())
-    #   - Config file (from __file__)
-    #   - For selected editor (from cwd())
-    #   - For data file (from __file__)
-    def get_absolute_parsed_path(self, relative_path):
-        print(self._cwd_path, self._file_parent_path, relative_path)
-        return relative_path
+    @staticmethod
+    def raise_epr_error(message):
+        raise EprError(message)

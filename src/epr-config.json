@@ -1,0 +1,16 @@
+{
+    "editors": [
+        {
+            "name": "Pycharm (x64)",
+            "editor_path": "C:/Program Files/JetBrains/*/*/pycharm64.exe"
+        },
+        {
+            "name": "Webstorm (x64)",
+            "editor_path": "C:/Program Files/JetBrains/*/*/webstorm64.exe"
+        },
+        {
+            "name": "Visual Studio Code",
+            "editor_path": "%LocalAppData%/Programs/Microsoft VS Code/Code.exe"
+        }
+    ]
+}

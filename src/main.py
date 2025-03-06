@@ -1,17 +1,16 @@
 import subprocess
 import sys
 import FreeSimpleGUI as sg
-from glob import glob
-from os.path import expandvars
 from pathlib import Path
 from util.constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
 from util.epr_util import EprUtil
-from util.epr_data import EprData
 
 
 def on_submit_button_press(selected_editor, target_path):
+    print(selected_editor, target_path)
+    print(Path(selected_editor).exists(), Path(target_path).exists())
     subprocess.Popen([selected_editor, target_path])
 
 
@@ -27,27 +26,24 @@ def main():
     if not args:
         return EprGui.make_warning_popup("No path given!")
 
-    # TODO: EprUtil
-    util = EprUtil(Path.cwd(), Path(__file__).parent)
-    print(util.get_absolute_parsed_path("./"))
-    # given_path = util.get_absolute_parsed_path(Path.cwd().joinpath(Path(args[0])).resolve())
-
-    given_path = Path.cwd().joinpath(Path(args[0])).resolve()
-    if not given_path.is_dir():
+    target_dir_str = args[0]
+    target_dir_path = EprUtil.get_parsed_abs_path(target_dir_str, Path.cwd())
+    if not target_dir_path.is_dir():
         return EprGui.make_warning_popup("Given path is not a directory!")
 
-    target_path = expandvars(given_path)
+    config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
+    epr_config = EprConfig()
+    try:
+        config_data = epr_config.load_config(config_path)
+    except Exception as err:
+        return print(err)
 
-    # TODO: EprData
-    epr_data = EprData(util)
-    epr_config = EprConfig(Path(__file__).parent / Path(CONFIG_FILE), util)
-    success, config_data = epr_config.load_config()
-
-    if not success:
+    if not config_data:
         return EprGui.make_warning_popup(str(config_data))
 
-    editor_paths = [editor["path"] for editor in config_data]
-    window = EprGui(editor_paths).create_window()
+    editors = config_data["editors"]
+
+    window = EprGui(editors).create_window()
 
     while True:
         event, values = window.read()
@@ -56,19 +52,24 @@ def main():
             break
 
         if event in [SUBMIT_KEY, OPEN_CONFIG_KEY]:
-            selected_editor_given_path = window[EDITOR_LIST_KEY].get()
-            if not selected_editor_given_path:
+            selected_editor_name = window[EDITOR_LIST_KEY].get()
+            if not selected_editor_name:
                 EprGui.make_warning_popup("No editor is selected!")
                 continue
 
-            glob_search = glob(selected_editor_given_path[0], recursive=True)
-            selected_editor = glob_search or selected_editor_given_path
-            selected_editor = expandvars(Path(selected_editor[0]))
+            selected_editor_name = selected_editor_name[0]
+
+            selected_editor_path_matches = [editor["editor_path"] for editor in editors if selected_editor_name == editor["name"]]
+            if not selected_editor_path_matches:
+                EprGui.make_warning_popup("No editor paths are assigned to that editor!")
+                continue
+
+            selected_editor_path = EprUtil.get_parsed_abs_path(selected_editor_path_matches[0], Path(__file__).parent)
 
             if event == SUBMIT_KEY:
-                on_submit_button_press(selected_editor, target_path)
+                on_submit_button_press(selected_editor_path, target_dir_path)
             elif event == OPEN_CONFIG_KEY:
-                on_open_config_press(selected_editor, epr_config.get_config_path())
+                on_open_config_press(selected_editor_path, config_path)
 
             break
 
