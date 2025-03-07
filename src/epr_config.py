@@ -43,7 +43,6 @@ class EprConfig:
         if not self.config_path.exists():
             print("Config file does not exist! Creating...")
             self.__create_config_file()
-            # return util.epr_util.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
 
         with open(self.config_path, "r") as f:
             json_data = json.loads(f.read())
