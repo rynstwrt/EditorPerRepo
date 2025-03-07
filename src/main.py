@@ -37,6 +37,21 @@ def config_main():
         if event == sg.WINDOW_CLOSED or event == "Cancel":
             break
 
+        if event == CONFIG_EDITOR_DETECT_KEY:
+            print("detecting...")
+
+        if event == CONFIG_EDITOR_RENAME_KEY:
+            print("renaming...")
+
+        if event == CONFIG_EDITOR_REMOVE_KEY:
+            print("removing...")
+
+        if event == CONFIG_EDITOR_ADD_KEY:
+            print("adding...")
+
+        if event in [CONFIG_EDITOR_ADD_REMOVE_SAVE_KEY, CONFIG_EDITOR_REMOVE_ASSOCIATIONS_SAVE_KEY]:
+            print("saving...", event)
+
     config_window.close()
     sys.exit()
 
