@@ -3,8 +3,12 @@ import json
 import os.path
 import shutil
 from util.epr_util import EprUtil
-from util.constants import CONFIG_BACKUP_LOCATION, CONFIG_FILE, MAX_CONFIG_BACKUPS
+from util.global_constants import CONFIG_FILE
 from pathlib import Path
+
+
+CONFIG_BACKUP_LOCATION = "./config_backups"
+MAX_CONFIG_BACKUPS = 5
 
 
 class EprConfig:
@@ -28,9 +32,18 @@ class EprConfig:
         print(f"Removed old config files! {[str(f.stem) for f in oldest_n_files]}")
 
 
+    def __create_config_file(self):
+        print(f"Creating config file at {self.config_path}!")
+
+        with open(self.config_path, "w", encoding="utf-8") as f:
+            json.dump({"editors": []}, f, ensure_ascii=False, indent=4)
+
+
     def load_config(self):
         if not self.config_path.exists():
-            return EprUtil.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
+            print("Config file does not exist! Creating...")
+            self.__create_config_file()
+            # return EprUtil.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
 
         with open(self.config_path, "r") as f:
             json_data = json.loads(f.read())
@@ -75,6 +88,11 @@ class EprConfig:
 
 
     def backup(self):
+        if not self.backup_dir_path.is_dir() or not self.backup_dir_path.exists():
+            print(f"Config backup dir does not exist! Creating at {self.backup_dir_path}")
+            self.backup_dir_path.mkdir(parents=True, exist_ok=True)
+            print(f"Config backup dir created at {self.backup_dir_path}!")
+
         config_name = self.config_path.stem
         config_ext = ".".join(self.config_path.suffixes)
 

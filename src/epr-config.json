@@ -6,10 +6,7 @@
         },
         {
             "name": "Webstorm (x64)",
-            "editor_path": "C:/Program Files/JetBrains/*/*/webstorm64.exe",
-            "associated_dirs": [
-                "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp"
-            ]
+            "editor_path": "C:/Program Files/JetBrains/*/*/webstorm64.exe"
         },
         {
             "name": "Visual Studio Code",

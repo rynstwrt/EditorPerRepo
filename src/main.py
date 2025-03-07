@@ -2,10 +2,14 @@ import subprocess
 import sys
 import FreeSimpleGUI as sg
 from pathlib import Path
-from util.constants import *
+from util.global_constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
 from util.epr_util import EprUtil
+
+
+SKIP_OPEN_EDITOR = True
+USE_STORED_EDITORS = False
 
 
 def on_submit_button_press(selected_editor, target_path):
@@ -23,8 +27,6 @@ def on_open_config_press(selected_editor, config_path):
 
 
 def main():
-    sg.theme(THEME)
-
     args = sys.argv[1:]
     if not args:
         return EprGui.make_warning_popup("No path given!")
@@ -71,7 +73,8 @@ def main():
                 EprGui.make_warning_popup("No editor paths are assigned to that editor!")
                 continue
 
-            epr_config.add_dir_to_associations(selected_editor_name, target_dir_path)
+            if window[SAVE_SELECTION_CHECKBOX_KEY].get():
+                epr_config.add_dir_to_associations(selected_editor_name, target_dir_path)
 
             selected_editor_path = EprUtil.get_parsed_abs_path(selected_editor_path_matches, Path(__file__).parent)
 
@@ -87,5 +90,4 @@ def main():
 
 
 if __name__ == "__main__":
-    EprConfig().backup()
-    # main()
+    main()
