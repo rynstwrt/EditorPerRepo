@@ -4,7 +4,7 @@ Open a different editor per repo when opening a repo on GitHub Desktop!
 <br>
 
 ## FEATURES:
-- Config to add editors to the GUI
+- Config to add editors to the GUI.
 - Support for **glob patterns** and **environment variables** in paths.
 
 <br>

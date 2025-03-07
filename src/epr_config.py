@@ -39,6 +39,11 @@ class EprConfig:
             json.dump({"editors": []}, f, ensure_ascii=False, indent=4)
 
 
+    # TODO:
+    def __auto_detect_editors(self):
+        pass
+
+
     def load_config(self):
         if not self.config_path.exists():
             print("Config file does not exist! Creating...")

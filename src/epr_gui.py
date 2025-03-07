@@ -72,6 +72,11 @@ class EprGui:
                          sbar_arrow_width=SCROLL_BAR_WIDTH)
 
 
+# TODO:
+class EprNoPathGUI:
+    pass
+
+
 def make_warning_popup(reason):
     sg.popup(title=WARNING_POPUP_TITLE,
              any_key_closes=True,
