@@ -45,7 +45,6 @@ def config_main():
         if event == CONFIG_SAVE_KEY:
             print("Config save!")
 
-
         # if event == CONFIG_EDITOR_DETECT_KEY:
         #     print("detecting...")
         #

@@ -19,8 +19,6 @@ VERY_SMALL_BUTTON_SIZE = (4, 1)
 MEDIUM_BUTTON_SIZE = (11, 1)
 SCROLL_BAR_WIDTH = 8
 
-# TITLEBAR_COLOR = "#23252b"
-# TITLEBAR_COLOR = "#212329"
 TITLEBAR_COLOR = "#272a30"
 
 WINDOW_PADDING = ((11, 11), (15, 9))
@@ -28,14 +26,21 @@ TAB_BUTTON_PADDING = (2, 3)
 MAIN_COLUMN_PADDING = ((10, 10), (10, 8))
 LISTBOX_PADDING = ((5, 5), (10, 5))
 
-TITLEBAR_LAYOUT = [
-    sg.Image(key=EXIT_ICON_KEY,
-             filename=epr_util.get_parsed_abs_path(EXIT_ICON_PATH, Path(__file__).parent),
-             subsample=2,
-             enable_events=True,
-             background_color=TITLEBAR_COLOR,
-             pad=((0, 7), (3, 2)))
-]
+
+TITLEBAR = sg.Column(layout=[
+    [
+        sg.Image(key=EXIT_ICON_KEY,
+                 filename=epr_util.get_parsed_abs_path(EXIT_ICON_PATH, Path(__file__).parent),
+                 subsample=2,
+                 enable_events=True,
+                 background_color=TITLEBAR_COLOR,
+                 pad=((0, 7), (3, 2)))
+    ]
+],
+    background_color=TITLEBAR_COLOR,
+    expand_x=True,
+    element_justification="r",
+    grab=True)
 
 
 sg.set_options(element_padding=(0, 0),
@@ -94,13 +99,7 @@ class EprGui:
         ]
 
         layout = [
-            [
-                sg.Column(layout=[TITLEBAR_LAYOUT],
-                          background_color=TITLEBAR_COLOR,
-                          expand_x=True,
-                          element_justification="r",
-                          grab=True)
-            ],
+            [TITLEBAR],
             [
                 sg.Column(layout=main_column_layout,
                           pad=MAIN_COLUMN_PADDING,
@@ -119,32 +118,18 @@ class EprGui:
                          element_justification="c",
                          finalize=True)
 
-        # return sg.Window(WINDOW_TITLE,
-        #                  layout=layout,
-        #                  size=DEFAULT_WINDOW_SIZE,
-        #                  element_justification="c",
-        #                  font=FONT,
-        #                  margins=(7, 7),
-        #                  auto_size_text=False,
-        #                  auto_size_buttons=False,
-        #                  sbar_width=SCROLL_BAR_WIDTH,
-        #                  sbar_arrow_width=SCROLL_BAR_WIDTH)
 
-
-# TODO:
 class EprConfigGUI:
     def __init__(self, editors):
         self._editors = editors
         self._editor_list_menu_items = self._list_menu_items = [editor["name"] for editor in editors]
         self._list_menu_association_items = ["(Coming Soon)"]
 
-
         sg.set_options(element_padding=(0, 0),
                        auto_size_text=False,
                        auto_size_buttons=False,
                        font=FONT,
                        keep_on_top=True)
-
 
         self.add_remove_editor_tab_layout = [
             [
@@ -179,7 +164,6 @@ class EprConfigGUI:
                           font=FONT, pad=TAB_BUTTON_PADDING),
             ],
         ]
-
 
         self.remove_associations_tab_layout = [
             [
@@ -241,13 +225,7 @@ class EprConfigGUI:
         ]
 
         layout = [
-            [
-                sg.Column(layout=[TITLEBAR_LAYOUT],
-                          background_color=TITLEBAR_COLOR,
-                          expand_x=True,
-                          element_justification="r",
-                          grab=True)
-            ],
+            [TITLEBAR],
             [
                 sg.Column(layout=[tab_group],
                           expand_x=True,
