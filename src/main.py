@@ -5,7 +5,7 @@ import util.epr_util
 from pathlib import Path
 from util.global_constants import *
 from epr_config import EprConfig
-from epr_gui import EprGui
+from epr_gui import EprGui, EprConfigGUI
 from epr_gui import make_warning_popup
 import util.epr_arg_parser
 
@@ -21,6 +21,23 @@ def on_open_config_press(selected_editor, config_path):
     print(f"open {config_path} in {selected_editor}")
     if not skip_opening_editors:
         subprocess.Popen([selected_editor, config_path])
+    sys.exit()
+
+
+def config_main():
+    epr_config = EprConfig()
+    epr_config.load_config()
+
+    config_editors = epr_config.get_editors()
+    config_window = EprConfigGUI(config_editors).create_window()
+
+    while True:
+        event, values = config_window.read()
+
+        if event == sg.WINDOW_CLOSED or event == "Cancel":
+            break
+
+    config_window.close()
     sys.exit()
 
 
@@ -85,9 +102,10 @@ def main():
 if __name__ == "__main__":
     args = util.epr_arg_parser.parse_args(sys.argv)
 
-    if args:
+    if args["target-dir"]:
         ignore_editor_associations = args["ignore-saved"]
         skip_opening_editors = args["skip-open"]
         main()
     else:
-        make_warning_popup("No path given!")
+        config_main()
+        # make_warning_popup("No path given!")

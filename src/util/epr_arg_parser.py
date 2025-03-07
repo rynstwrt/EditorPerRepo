@@ -4,13 +4,11 @@ from pathlib import Path
 
 def parse_args(args):
     args = args[1:]
-    if not args:
-        return
 
-    arg_values = {
-        "target-dir": util.epr_util.get_parsed_abs_path(args[0], Path.cwd()),
+    target_dir = None if not args else util.epr_util.get_parsed_abs_path(args[0], Path.cwd())
+
+    return {
+        "target-dir": target_dir,
         "skip-open": "--skip-open" in args,
         "ignore-saved": "--ignore-saved" in args
     }
-
-    return arg_values
