@@ -1,12 +1,12 @@
 import subprocess
 import sys
 import FreeSimpleGUI as sg
+import util.epr_util
 from pathlib import Path
 from util.global_constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
-from util.epr_util import EprUtil
-from util.epr_arg_parser import EprArgParser
+import util.epr_arg_parser
 
 
 def on_submit_button_press(selected_editor, target_path):
@@ -25,7 +25,7 @@ def on_open_config_press(selected_editor, config_path):
 
 def main():
     target_dir_str = args["target-dir"]
-    target_dir_path = EprUtil.get_parsed_abs_path(target_dir_str, Path.cwd())
+    target_dir_path = util.epr_util.get_parsed_abs_path(target_dir_str, Path.cwd())
     if not target_dir_path.is_dir():
         return EprGui.make_warning_popup("Given path is not a directory!")
 
@@ -39,7 +39,7 @@ def main():
     if not ignore_editor_associations and editor_associated_with_dir:
         print("associated!:", editor_associated_with_dir)
         # TODO: add bypass method
-        associated_editor_path = EprUtil.get_parsed_abs_path(editor_associated_with_dir["editor_path"], Path(__file__).parent)
+        associated_editor_path = util.epr_util.get_parsed_abs_path(editor_associated_with_dir["editor_path"], Path(__file__).parent)
         on_submit_button_press(associated_editor_path, target_dir_path)
         return
 
@@ -69,7 +69,7 @@ def main():
             if window[SAVE_SELECTION_CHECKBOX_KEY].get():
                 epr_config.add_dir_to_associations(selected_editor_name, target_dir_path)
 
-            selected_editor_path = EprUtil.get_parsed_abs_path(selected_editor_path_matches, Path(__file__).parent)
+            selected_editor_path = util.epr_util.get_parsed_abs_path(selected_editor_path_matches, Path(__file__).parent)
 
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor_path, target_dir_path)
@@ -83,8 +83,8 @@ def main():
 
 
 if __name__ == "__main__":
-    args = EprArgParser().parse_args(sys.argv)
-    print(args)
+    args = util.epr_arg_parser.parse_args(sys.argv)
+
     if args:
         ignore_editor_associations = args["ignore-editor-associations"]
         skip_opening_editors = args["skip-open-editor"]

@@ -2,7 +2,7 @@ import datetime
 import json
 import os.path
 import shutil
-from util.epr_util import EprUtil
+import util.epr_util
 from util.global_constants import CONFIG_FILE
 from pathlib import Path
 
@@ -13,8 +13,8 @@ MAX_CONFIG_BACKUPS = 5
 
 class EprConfig:
     def __init__(self):
-        self.config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
-        self.backup_dir_path = EprUtil.get_parsed_abs_path(CONFIG_BACKUP_LOCATION, Path(__file__).parent)
+        self.config_path = util.epr_util.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
+        self.backup_dir_path = util.epr_util.get_parsed_abs_path(CONFIG_BACKUP_LOCATION, Path(__file__).parent)
         self.editors = []
 
 
@@ -43,7 +43,7 @@ class EprConfig:
         if not self.config_path.exists():
             print("Config file does not exist! Creating...")
             self.__create_config_file()
-            # return EprUtil.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
+            # return util.epr_util.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
 
         with open(self.config_path, "r") as f:
             json_data = json.loads(f.read())

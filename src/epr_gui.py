@@ -1,5 +1,5 @@
-from util.global_constants import *
 import FreeSimpleGUI as sg
+from util.global_constants import *
 
 
 WINDOW_TITLE = "EditorPerRepo"
