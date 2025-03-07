@@ -1,8 +1,6 @@
 # EditorPerRepo
 Open a different editor per repo when opening a repo on GitHub Desktop!
 
-The CLI version can be found here: https://github.com/rynstwrt/EditorPerRepoCLI
-
 <br>
 
 ## FEATURES:
