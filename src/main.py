@@ -6,32 +6,25 @@ from util.global_constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
 from util.epr_util import EprUtil
-
-
-SKIP_OPEN_EDITOR = True
-USE_STORED_EDITORS = False
+from util.epr_arg_parser import EprArgParser
 
 
 def on_submit_button_press(selected_editor, target_path):
     print(selected_editor, target_path)
-    if not SKIP_OPEN_EDITOR:
+    if not skip_opening_editors:
         subprocess.Popen([selected_editor, target_path])
     sys.exit()
 
 
 def on_open_config_press(selected_editor, config_path):
     print(f"open {config_path} in {selected_editor}")
-    if not SKIP_OPEN_EDITOR:
+    if not skip_opening_editors:
         subprocess.Popen([selected_editor, config_path])
     sys.exit()
 
 
 def main():
-    args = sys.argv[1:]
-    if not args:
-        return EprGui.make_warning_popup("No path given!")
-
-    target_dir_str = args[0]
+    target_dir_str = args["target-dir"]
     target_dir_path = EprUtil.get_parsed_abs_path(target_dir_str, Path.cwd())
     if not target_dir_path.is_dir():
         return EprGui.make_warning_popup("Given path is not a directory!")
@@ -43,7 +36,7 @@ def main():
         return print(err)
 
     editor_associated_with_dir = epr_config.get_editor_from_dir_association(target_dir_path)
-    if USE_STORED_EDITORS and editor_associated_with_dir:
+    if not ignore_editor_associations and editor_associated_with_dir:
         print("associated!:", editor_associated_with_dir)
         # TODO: add bypass method
         associated_editor_path = EprUtil.get_parsed_abs_path(editor_associated_with_dir["editor_path"], Path(__file__).parent)
@@ -90,4 +83,11 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    args = EprArgParser().parse_args(sys.argv)
+    print(args)
+    if args:
+        ignore_editor_associations = args["ignore-editor-associations"]
+        skip_opening_editors = args["skip-open-editor"]
+        main()
+    else:
+        EprGui.make_warning_popup("No path given!")

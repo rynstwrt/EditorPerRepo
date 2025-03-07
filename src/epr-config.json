@@ -12,7 +12,8 @@
             "name": "Visual Studio Code",
             "editor_path": "%LocalAppData%/Programs/Microsoft VS Code/Code.exe",
             "associated_dirs": [
-                "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp"
+                "C:\\Users\\ryans\\Dropbox\\OpenSCAD Projects\\8x8-LED-Matrix-Lamp",
+                "C:\\Users\\ryans\\Documents\\GitHub\\EditorPerRepoGUI"
             ]
         }
     ]
