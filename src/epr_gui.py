@@ -10,7 +10,7 @@ THEME = "Dark Grey 15"
 FONT = ("Helvetica Neue Light", 12)
 
 DEFAULT_WINDOW_SIZE = (500, 250)
-DEFAULT_CONFIG_WINDOW_SIZE = (500, 450)
+DEFAULT_CONFIG_WINDOW_SIZE = (500, 500)
 SMALL_BUTTON_SIZE = (8, 1)
 VERY_SMALL_BUTTON_SIZE = (4, 1)
 MEDIUM_BUTTON_SIZE = (11, 1)
@@ -88,100 +88,75 @@ class EprConfigGUI:
     def create_window(self):
         layout = [
             [
-                [
-                   sg.Text(
-                       "This is the EditorPerRepo config.",
-                       justification="c",
-                       pad=((0, 0), (4, 0)))
-                ],
-                [
-                    sg.Text(
-                        "To use it, pass a path as the first argument.",
-                        justification="c",
-                        pad=((0, 0), (0, 15)))
-                ],
+                sg.Text("Add or Remove Editors:",
+                        expand_x=True,
+                        pad=((5, 0), (0, 7)))
             ],
             [
-                [
-                    sg.Text("Add or Remove Editors:",
-                            expand_x=True,
-                            pad=((5, 0), (0, 7)))
-                ],
-                [
-                    sg.Listbox(key=CONFIG_EDITOR_LIST_KEY,
-                               values=self._editor_list_menu_items,
-                               expand_x=True,
-                               expand_y=True,
-                               font=(FONT[0], FONT[1] - 1),
-                               select_mode=sg.SELECT_MODE_SINGLE,
-                               pad=((5, 5), (0, 4)))
-                ],
-                [
-                    sg.Button(key=CONFIG_EDITOR_DETECT_KEY,
-                              button_text="Detect",
-                              expand_x=True,
-                              font=FONT),
-                    sg.Button(key=CONFIG_EDITOR_RENAME_KEY,
-                              button_text="Rename",
-                              expand_x=True,
-                              font=FONT),
-                    sg.Button(key=CONFIG_EDITOR_REMOVE_KEY,
-                              button_text="-",
-                              size=VERY_SMALL_BUTTON_SIZE,
-                              font=FONT),
-                    sg.Button(key=CONFIG_EDITOR_ADD_KEY,
-                              button_text="+",
-                              size=VERY_SMALL_BUTTON_SIZE,
-                              font=FONT),
-                    sg.Button(key=CONFIG_EDITOR_ADD_REMOVE_SAVE_KEY,
-                              button_text="Save",
-                              expand_x=True,
-                              font=FONT)
-                ]
+                sg.Listbox(key=CONFIG_EDITOR_LIST_KEY,
+                           values=self._editor_list_menu_items,
+                           expand_x=True,
+                           expand_y=True,
+                           font=(FONT[0], FONT[1] - 1),
+                           select_mode=sg.SELECT_MODE_SINGLE,
+                           pad=((5, 5), (0, 4)))
             ],
             [
-                [
-                    sg.Text("Remove Directory Associations:",
-                            expand_x=True,
-                            pad=((5, 0), (15, 7)))
-                ],
-                [
-                    sg.Listbox(key=CONFIG_EDITOR_REMOVE_ASSOCIATIONS_KEY,
-                               values=self._list_menu_association_items,
-                               expand_x=True,
-                               expand_y=True,
-                               font=(FONT[0], FONT[1] - 1),
-                               select_mode=sg.SELECT_MODE_SINGLE,
-                               pad=((5, 5), (0, 4)))
-                ],
-                [
-                    sg.Button(key=CONFIG_EDITOR_REMOVE_ASSOCIATIONS_SAVE_KEY,
-                              button_text="Save",
-                              expand_x=True,
-                              font=FONT)
-                ],
+                sg.Button(key=CONFIG_EDITOR_REMOVE_KEY,
+                          button_text="-",
+                          size=VERY_SMALL_BUTTON_SIZE,
+                          font=FONT),
+                sg.Button(key=CONFIG_EDITOR_ADD_KEY,
+                          button_text="+",
+                          size=VERY_SMALL_BUTTON_SIZE,
+                          font=FONT),
+                sg.Button(key=CONFIG_EDITOR_RENAME_KEY,
+                          button_text="Rename",
+                          size=MEDIUM_BUTTON_SIZE,
+                          font=FONT),
+                sg.Button(key=CONFIG_EDITOR_DETECT_KEY,
+                          button_text="Detect",
+                          size=MEDIUM_BUTTON_SIZE,
+                          font=FONT),
+                sg.Button(key=CONFIG_SAVE_KEY,
+                          button_text="Save",
+                          expand_x=True,
+                          font=FONT)
+            ],
+
+            [
+                sg.HSeparator(color="black", pad=((5, 5), (15, 15)))
+            ],
+
+            [
+                sg.Text("Remove Directory Associations:",
+                        expand_x=True,
+                        pad=((5, 0), (0, 7)))
             ],
             [
-                [
-                    sg.Button("Cancel",
-                              size=SMALL_BUTTON_SIZE,
-                              font=FONT),
-                    sg.Button(key=OPEN_CONFIG_KEY,
-                              button_text="Config",
-                              size=SMALL_BUTTON_SIZE,
-                              font=FONT),
-                    sg.Button(key=SUBMIT_KEY,
-                              button_text="Submit",
-                              expand_x=True,
-                              font=FONT)
-                ]
+                sg.Listbox(key=CONFIG_EDITOR_REMOVE_ASSOCIATIONS_KEY,
+                           values=self._list_menu_association_items,
+                           expand_x=True,
+                           expand_y=True,
+                           font=(FONT[0], FONT[1] - 1),
+                           select_mode=sg.SELECT_MODE_SINGLE,
+                           pad=((5, 5), (0, 4)))
+            ],
+            [
+                sg.Button(key="",
+                          button_text="Remove",
+                          size=MEDIUM_BUTTON_SIZE,
+                          font=FONT),
+                sg.Button(key=CONFIG_SAVE_KEY,
+                          button_text="Save",
+                          expand_x=True,
+                          font=FONT)
             ]
         ]
 
         return sg.Window(CONFIG_WINDOW_TITLE,
                          layout=layout,
                          size=DEFAULT_CONFIG_WINDOW_SIZE,
-                         element_justification="c",
                          font=FONT,
                          margins=(7, 7),
                          auto_size_text=False,
