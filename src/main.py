@@ -10,13 +10,15 @@ from util.epr_util import EprUtil
 
 def on_submit_button_press(selected_editor, target_path):
     print(selected_editor, target_path)
-    subprocess.Popen([selected_editor, target_path])
+    if not SKIP_OPEN_EDITOR:
+        subprocess.Popen([selected_editor, target_path])
     sys.exit()
 
 
 def on_open_config_press(selected_editor, config_path):
     print(f"open {config_path} in {selected_editor}")
-    subprocess.Popen([selected_editor, config_path])
+    if not SKIP_OPEN_EDITOR:
+        subprocess.Popen([selected_editor, config_path])
     sys.exit()
 
 
@@ -34,12 +36,13 @@ def main():
 
     config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
     try:
+        epr_config = EprConfig()
         epr_config.load_config(config_path)
     except Exception as err:
         return print(err)
 
     editor_associated_with_dir = epr_config.get_editor_from_dir_association(target_dir_path)
-    if editor_associated_with_dir:
+    if USE_STORED_EDITORS and editor_associated_with_dir:
         print("associated!:", editor_associated_with_dir)
         # TODO: add bypass method
         associated_editor_path = EprUtil.get_parsed_abs_path(editor_associated_with_dir["editor_path"], Path(__file__).parent)
@@ -85,7 +88,4 @@ def main():
 
 
 if __name__ == "__main__":
-    epr_config = EprConfig()
-    epr_config.load_config(EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent))
-    epr_config.backup()
-    # main()
+    main()

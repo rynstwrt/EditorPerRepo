@@ -1,6 +1,5 @@
 import datetime
 import json
-import os.path
 import shutil
 from util.epr_util import EprUtil
 from util.constants import CONFIG_BACKUP_LOCATION
@@ -20,13 +19,8 @@ class EprConfig:
 
         with open(config_path, "r") as f:
             json_data = json.loads(f.read())
-            self.editors = json_data["editors"]
             f.close()
-
-        # config_file_open = open(config_path, "r")
-        # json_data = json.loads(config_file_open.read())
-        # config_file_open.close()
-        # self.editors = json_data["editors"]
+            self.editors = json_data["editors"]
 
 
     def save_config(self):
