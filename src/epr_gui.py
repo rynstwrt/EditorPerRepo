@@ -1,5 +1,4 @@
 import FreeSimpleGUI as sg
-import util.epr_theme
 from src.util import epr_util
 from util.global_constants import *
 from pathlib import Path
@@ -9,7 +8,6 @@ WINDOW_TITLE = "EditorPerRepo"
 CONFIG_WINDOW_TITLE = "EditorPerRepo Config"
 WARNING_POPUP_TITLE = "WARNING"
 
-# THEME = "DarkGrey13"
 FONT = ("Helvetica Neue Light", 12)
 
 EXIT_ICON_PATH = "./assets/icons/x2.png"
@@ -26,8 +24,9 @@ SCROLL_BAR_WIDTH = 8
 TITLEBAR_COLOR = "#272a30"
 
 WINDOW_PADDING = ((11, 11), (15, 9))
-LISTBOX_PADDING = ((5, 5), (10, 5))
 TAB_BUTTON_PADDING = (2, 3)
+MAIN_COLUMN_PADDING = ((10, 10), (10, 8))
+LISTBOX_PADDING = ((5, 5), (10, 5))
 
 TITLEBAR_LAYOUT = [
     sg.Image(key=EXIT_ICON_KEY,
@@ -58,7 +57,7 @@ class EprGui:
                 sg.Text("Please select an editor to open this directory:",
                         justification="c",
                         expand_x=True,
-                        pad=((0, 0), (12, 0)))
+                        pad=((0, 0), (0, 5)))
             ],
             [
                 sg.Listbox(key=EDITOR_LIST_KEY,
@@ -66,8 +65,7 @@ class EprGui:
                            expand_x=True,
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
-                           select_mode=sg.SELECT_MODE_SINGLE,
-                           pad=(LISTBOX_PADDING[0], LISTBOX_PADDING[1]))
+                           select_mode=sg.SELECT_MODE_SINGLE)
             ],
             [
                 sg.Checkbox(key=SAVE_SELECTION_CHECKBOX_KEY,
@@ -80,16 +78,19 @@ class EprGui:
             [
                 sg.Button("Cancel",
                           size=SMALL_BUTTON_SIZE,
-                          font=FONT),
+                          font=FONT,
+                          pad=TAB_BUTTON_PADDING),
                 sg.Button(key=OPEN_CONFIG_KEY,
                           button_text="Config",
                           size=SMALL_BUTTON_SIZE,
-                          font=FONT),
+                          font=FONT,
+                          pad=TAB_BUTTON_PADDING),
                 sg.Button(key=SUBMIT_KEY,
                           button_text="Submit",
                           expand_x=True,
-                          font=FONT)
-            ],
+                          font=FONT,
+                          pad=TAB_BUTTON_PADDING),
+            ]
         ]
 
         layout = [
@@ -102,7 +103,7 @@ class EprGui:
             ],
             [
                 sg.Column(layout=main_column_layout,
-                          pad=(WINDOW_PADDING[0], LISTBOX_PADDING[1]),
+                          pad=MAIN_COLUMN_PADDING,
                           expand_x=True,
                           expand_y=True)
             ]
@@ -110,7 +111,6 @@ class EprGui:
 
         return sg.Window(WINDOW_TITLE,
                          layout=layout,
-                         # layout=layout,
                          size=DEFAULT_WINDOW_SIZE,
                          sbar_width=SCROLL_BAR_WIDTH,
                          sbar_arrow_width=SCROLL_BAR_WIDTH,
@@ -229,6 +229,17 @@ class EprConfigGUI:
             ]
         ]
 
+        tab_group = [
+            sg.TabGroup(layout=tab_layout,
+                        expand_x=True,
+                        expand_y=True,
+                        border_width=1,
+                        tab_border_width=1,
+                        title_color=default_text_color,
+                        selected_title_color=accent_color,
+                        selected_background_color=selected_background_color),
+        ]
+
         layout = [
             [
                 sg.Column(layout=[TITLEBAR_LAYOUT],
@@ -238,17 +249,11 @@ class EprConfigGUI:
                           grab=True)
             ],
             [
-                sg.TabGroup(layout=tab_layout,
-                            expand_x=True,
-                            expand_y=True,
-                            border_width=1,
-                            tab_border_width=1,
-                            title_color=default_text_color,
-                            selected_title_color=accent_color,
-                            selected_background_color=selected_background_color,
-                            pad=WINDOW_PADDING),
-
-
+                sg.Column(layout=[tab_group],
+                          expand_x=True,
+                          expand_y=True,
+                          element_justification="c",
+                          pad=MAIN_COLUMN_PADDING)
             ]
         ]
 
