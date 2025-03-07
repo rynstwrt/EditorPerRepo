@@ -2,12 +2,13 @@ import subprocess
 import sys
 import FreeSimpleGUI as sg
 import util.epr_util
+import util.epr_arg_parser
 from pathlib import Path
+from src.util.epr_theme import create_epr_theme
 from util.global_constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui, EprConfigGUI
 from epr_gui import make_warning_popup
-import util.epr_arg_parser
 
 
 def on_submit_button_press(selected_editor, target_path):
@@ -33,15 +34,24 @@ def config_main():
     if not config_window:
         return
 
+    has_run_once = False
+    # config_window.read()
+    config_window["exit-icon"].set_cursor("hand2")
+    config_window.read()
     while True:
         event, values = config_window.read()
+
+        if not has_run_once:
+            print("set cursor")
+            has_run_once = True
+            continue
 
         if event == sg.WINDOW_CLOSED or event == "Cancel":
             break
 
         if event == CONFIG_SAVE_KEY:
             print("Config save!")
-            sg.set_options(background_color="blue")
+
 
         # if event == CONFIG_EDITOR_DETECT_KEY:
         #     print("detecting...")
@@ -121,8 +131,9 @@ def main():
 
 
 if __name__ == "__main__":
-    args = util.epr_arg_parser.parse_args(sys.argv)
+    create_epr_theme()
 
+    args = util.epr_arg_parser.parse_args(sys.argv)
     if args["target-dir"]:
         ignore_editor_associations = args["ignore-saved"]
         skip_opening_editors = args["skip-open"]

@@ -1,14 +1,17 @@
 import FreeSimpleGUI as sg
-from util.epr_theme import create_theme
+import util.epr_util
+from src.util import epr_util
 from util.global_constants import *
+from pathlib import Path
 
 
 WINDOW_TITLE = "EditorPerRepo"
 CONFIG_WINDOW_TITLE = "EditorPerRepo Config"
 WARNING_POPUP_TITLE = "WARNING"
 
-THEME = "Dark Grey 15"
+# THEME = "DarkGrey13"
 FONT = ("Helvetica Neue Light", 12)
+EXIT_ICON_PATH = "./assets/icons/x.png"
 
 DEFAULT_WINDOW_SIZE = (500, 250)
 DEFAULT_CONFIG_WINDOW_SIZE = (500, 500)
@@ -18,9 +21,9 @@ MEDIUM_BUTTON_SIZE = (11, 1)
 SCROLL_BAR_WIDTH = 8
 
 
+
 class EprGui:
     def __init__(self, editors):
-        sg.theme(THEME)
         self._editors = editors
         self._list_menu_items = [editor["name"] for editor in editors]
 
@@ -39,14 +42,14 @@ class EprGui:
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
                            select_mode=sg.SELECT_MODE_SINGLE,
-                           pad=((5, 5), (0, 0)))
+                           # pad=(5, (0, 0))
+                           )
             ],
             [
-                # sg.Text("Save selection:"),
                 sg.Checkbox(key=SAVE_SELECTION_CHECKBOX_KEY,
                             text="Save selection",
                             default=True,
-                            pad=((0, 0), (0, 7)),
+                            pad=((0, 0), (2, 7)),
                             font=(FONT[0], FONT[1] - 1)),
                 sg.Push()
             ],
@@ -80,20 +83,12 @@ class EprGui:
 # TODO:
 class EprConfigGUI:
     def __init__(self, editors):
-        # sg.theme(THEME)
-
         self._editors = editors
         self._editor_list_menu_items = self._list_menu_items = [editor["name"] for editor in editors]
         self._list_menu_association_items = ["(Coming Soon)"]
 
 
-
     def create_window(self):
-        # ttk_themes = ["default", "alt", "clam", "classic"]
-        create_theme()
-        return
-        # sg.set_options(button_)
-        #   return
         add_remove_editor_frame_layout = [
             [
                 sg.Listbox(key=CONFIG_EDITOR_LIST_KEY,
@@ -101,8 +96,7 @@ class EprConfigGUI:
                            expand_x=True,
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
-                           select_mode=sg.SELECT_MODE_SINGLE,
-                           pad=((5, 5), (0, 4)))
+                           select_mode=sg.SELECT_MODE_SINGLE)
             ],
             [
                 sg.Button(key=CONFIG_EDITOR_REMOVE_KEY,
@@ -150,15 +144,9 @@ class EprConfigGUI:
             ]
         ]
 
-        # background_color = sg.theme_element_text_color()
-
         selected_background_color = sg.theme_button_color_background()
         accent_color = sg.theme_button_color_text()
         default_text_color = sg.theme_text_color()
-
-        # selected_background_color = "red"
-        # accent_color = "red"
-        # default_text_color = "red"
 
         layout = [
             [
@@ -180,25 +168,33 @@ class EprConfigGUI:
         return sg.Window(CONFIG_WINDOW_TITLE,
                          layout=[
                              [
+                                 sg.Stretch(),
+                                 sg.Image(key="exit-icon",
+                                          filename=epr_util.get_parsed_abs_path(EXIT_ICON_PATH, Path(__file__).parent),
+                                          subsample=2,
+                                          enable_events=True)
+                             ],
+                             [
                                 sg.TabGroup(layout=layout,
                                             expand_x=True,
                                             expand_y=True,
                                             border_width=1,
                                             tab_border_width=1,
-                                            # title_color=default_text_color,
-                                            # title_color="rgb(255, 255, 255)",
-                                            # selected_title_color=accent_color,
-                                            # selected_background_color=selected_background_color
+                                            title_color=default_text_color,
+                                            selected_title_color=accent_color,
+                                            selected_background_color=selected_background_color
                                             )
                              ]
                          ],
                          size=DEFAULT_CONFIG_WINDOW_SIZE,
                          font=FONT,
-                         margins=(0, 5),
+                         margins=(2, 5),
                          auto_size_text=False,
                          auto_size_buttons=False,
                          sbar_width=SCROLL_BAR_WIDTH,
-                         sbar_arrow_width=SCROLL_BAR_WIDTH)
+                         sbar_arrow_width=SCROLL_BAR_WIDTH,
+                         finalize=True,
+                         no_titlebar=True)
 
 
 def make_warning_popup(reason):
