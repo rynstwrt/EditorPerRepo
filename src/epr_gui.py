@@ -53,17 +53,11 @@ class EprGui:
 
 
     def create_window(self):
-        layout = [
-            [
-                sg.Column(layout=[TITLEBAR_LAYOUT],
-                          background_color=TITLEBAR_COLOR,
-                          expand_x=True,
-                          element_justification="r",
-                          grab=True, pad=(0, 0))
-            ],
+        main_column_layout = [
             [
                 sg.Text("Please select an editor to open this directory:",
                         justification="c",
+                        expand_x=True,
                         pad=((0, 0), (12, 0)))
             ],
             [
@@ -73,7 +67,7 @@ class EprGui:
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
                            select_mode=sg.SELECT_MODE_SINGLE,
-                           pad=(LISTBOX_PADDING[0], (LISTBOX_PADDING[1][0] - 6, LISTBOX_PADDING[1][1])))
+                           pad=(LISTBOX_PADDING[0], LISTBOX_PADDING[1]))
             ],
             [
                 sg.Checkbox(key=SAVE_SELECTION_CHECKBOX_KEY,
@@ -98,13 +92,29 @@ class EprGui:
             ],
         ]
 
+        layout = [
+            [
+                sg.Column(layout=[TITLEBAR_LAYOUT],
+                          background_color=TITLEBAR_COLOR,
+                          expand_x=True,
+                          element_justification="r",
+                          grab=True)
+            ],
+            [
+                sg.Column(layout=main_column_layout,
+                          pad=(WINDOW_PADDING[0], LISTBOX_PADDING[1]),
+                          expand_x=True,
+                          expand_y=True)
+            ]
+        ]
+
         return sg.Window(WINDOW_TITLE,
                          layout=layout,
+                         # layout=layout,
                          size=DEFAULT_WINDOW_SIZE,
                          sbar_width=SCROLL_BAR_WIDTH,
                          sbar_arrow_width=SCROLL_BAR_WIDTH,
                          no_titlebar=True,
-                         titlebar_background_color=TITLEBAR_COLOR,
                          margins=(0, 0),
                          element_justification="c",
                          finalize=True)
