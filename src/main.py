@@ -38,7 +38,6 @@ def main():
     editor_associated_with_dir = epr_config.get_editor_from_dir_association(target_dir_path)
     if not ignore_editor_associations and editor_associated_with_dir:
         print("associated!:", editor_associated_with_dir)
-        # TODO: add bypass method
         associated_editor_path = util.epr_util.get_parsed_abs_path(editor_associated_with_dir["editor_path"], Path(__file__).parent)
         on_submit_button_press(associated_editor_path, target_dir_path)
         return
