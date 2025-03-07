@@ -29,6 +29,21 @@ WINDOW_PADDING = ((11, 11), (15, 9))
 LISTBOX_PADDING = ((5, 5), (10, 5))
 TAB_BUTTON_PADDING = (2, 3)
 
+TITLEBAR_LAYOUT = [
+    sg.Image(key=EXIT_ICON_KEY,
+             filename=epr_util.get_parsed_abs_path(EXIT_ICON_PATH, Path(__file__).parent),
+             subsample=2,
+             enable_events=True,
+             background_color=TITLEBAR_COLOR,
+             pad=((0, 7), (3, 2)))
+]
+
+
+sg.set_options(element_padding=(0, 0),
+               auto_size_text=False,
+               auto_size_buttons=False,
+               font=FONT,
+               keep_on_top=True)
 
 
 class EprGui:
@@ -40,9 +55,16 @@ class EprGui:
     def create_window(self):
         layout = [
             [
+                sg.Column(layout=[TITLEBAR_LAYOUT],
+                          background_color=TITLEBAR_COLOR,
+                          expand_x=True,
+                          element_justification="r",
+                          grab=True, pad=(0, 0))
+            ],
+            [
                 sg.Text("Please select an editor to open this directory:",
                         justification="c",
-                        pad=((0, 0), (0, 7)))
+                        pad=((0, 0), (12, 0)))
             ],
             [
                 sg.Listbox(key=EDITOR_LIST_KEY,
@@ -51,8 +73,7 @@ class EprGui:
                            expand_y=True,
                            font=(FONT[0], FONT[1] - 1),
                            select_mode=sg.SELECT_MODE_SINGLE,
-                           # pad=(5, (0, 0))
-                           )
+                           pad=(LISTBOX_PADDING[0], (LISTBOX_PADDING[1][0] - 6, LISTBOX_PADDING[1][1])))
             ],
             [
                 sg.Checkbox(key=SAVE_SELECTION_CHECKBOX_KEY,
@@ -80,13 +101,24 @@ class EprGui:
         return sg.Window(WINDOW_TITLE,
                          layout=layout,
                          size=DEFAULT_WINDOW_SIZE,
-                         element_justification="c",
-                         font=FONT,
-                         margins=(7, 7),
-                         auto_size_text=False,
-                         auto_size_buttons=False,
                          sbar_width=SCROLL_BAR_WIDTH,
-                         sbar_arrow_width=SCROLL_BAR_WIDTH)
+                         sbar_arrow_width=SCROLL_BAR_WIDTH,
+                         no_titlebar=True,
+                         titlebar_background_color=TITLEBAR_COLOR,
+                         margins=(0, 0),
+                         element_justification="c",
+                         finalize=True)
+
+        # return sg.Window(WINDOW_TITLE,
+        #                  layout=layout,
+        #                  size=DEFAULT_WINDOW_SIZE,
+        #                  element_justification="c",
+        #                  font=FONT,
+        #                  margins=(7, 7),
+        #                  auto_size_text=False,
+        #                  auto_size_buttons=False,
+        #                  sbar_width=SCROLL_BAR_WIDTH,
+        #                  sbar_arrow_width=SCROLL_BAR_WIDTH)
 
 
 # TODO:
@@ -96,6 +128,7 @@ class EprConfigGUI:
         self._editor_list_menu_items = self._list_menu_items = [editor["name"] for editor in editors]
         self._list_menu_association_items = ["(Coming Soon)"]
 
+
         sg.set_options(element_padding=(0, 0),
                        auto_size_text=False,
                        auto_size_buttons=False,
@@ -103,8 +136,7 @@ class EprConfigGUI:
                        keep_on_top=True)
 
 
-    def create_window(self):
-        add_remove_editor_tab_layout = [
+        self.add_remove_editor_tab_layout = [
             [
                 sg.Listbox(key=CONFIG_EDITOR_LIST_KEY,
                            values=self._editor_list_menu_items,
@@ -138,7 +170,8 @@ class EprConfigGUI:
             ],
         ]
 
-        remove_associations_tab_layout = [
+
+        self.remove_associations_tab_layout = [
             [
                 sg.Listbox(key=CONFIG_EDITOR_REMOVE_ASSOCIATIONS_KEY,
                            values=self._list_menu_association_items,
@@ -162,14 +195,16 @@ class EprConfigGUI:
             ]
         ]
 
+
+    def create_window(self):
         selected_background_color = sg.theme_button_color_background()
         accent_color = sg.theme_button_color_text()
         default_text_color = sg.theme_text_color()
 
-        layout = [
+        tab_layout = [
             [
                 sg.Tab(title="Change",
-                       layout=[*add_remove_editor_tab_layout],
+                       layout=[*self.add_remove_editor_tab_layout],
                        expand_x=True,
                        expand_y=True,
                        background_color=selected_background_color,
@@ -177,65 +212,46 @@ class EprConfigGUI:
             ],
             [
                 sg.Tab(title="Editor Associations",
-                       layout=[*remove_associations_tab_layout],
+                       layout=[*self.remove_associations_tab_layout],
                        expand_x=True,
                        expand_y=True,
                        background_color=selected_background_color)
             ]
         ]
 
-        top_bar_layout = [
-            # sg.Text(WINDOW_TITLE, justification="l", background_color=TITLEBAR_COLOR, pad=((7, 0), (3, 2)), text_color=accent_color),
-            # sg.Stretch(background_color=TITLEBAR_COLOR),
-            sg.Image(key=EXIT_ICON_KEY,
-                     filename=epr_util.get_parsed_abs_path(EXIT_ICON_PATH, Path(__file__).parent),
-                     subsample=2,
-                     enable_events=True,
-                     background_color=TITLEBAR_COLOR,
-                     pad=((0, 7), (3, 2)))
+        layout = [
+            [
+                sg.Column(layout=[TITLEBAR_LAYOUT],
+                          background_color=TITLEBAR_COLOR,
+                          expand_x=True,
+                          element_justification="r",
+                          grab=True)
+            ],
+            [
+                sg.TabGroup(layout=tab_layout,
+                            expand_x=True,
+                            expand_y=True,
+                            border_width=1,
+                            tab_border_width=1,
+                            title_color=default_text_color,
+                            selected_title_color=accent_color,
+                            selected_background_color=selected_background_color,
+                            pad=WINDOW_PADDING),
+
+
+            ]
         ]
 
         return sg.Window(CONFIG_WINDOW_TITLE,
-                         layout=[
-                             [
-                                 # sg.Titlebar("Sdasfsdf", background_color="black"),
-                                 # # sg.Stretch(),
-
-                                 sg.Column(layout=[top_bar_layout],
-                                           background_color=TITLEBAR_COLOR,
-                                           expand_x=True,
-                                           element_justification="r",
-                                           grab=True)
-                             ],
-                             # [
-                             #     sg.Text("EPR Config", justification="r", pad=((0, 7), (3, 2)), text_color=accent_color, expand_x=True),
-                             # ],
-                             [
-                                sg.TabGroup(layout=layout,
-                                            expand_x=True,
-                                            expand_y=True,
-                                            border_width=1,
-                                            tab_border_width=1,
-                                            title_color=default_text_color,
-                                            selected_title_color=accent_color,
-                                            selected_background_color=selected_background_color,
-                                            pad=WINDOW_PADDING),
-
-
-                             ]
-                         ],
+                         layout=layout,
                          size=DEFAULT_CONFIG_WINDOW_SIZE,
-                         # font=FONT,
-                         # margins=(2, 0),
                          sbar_width=SCROLL_BAR_WIDTH,
                          sbar_arrow_width=SCROLL_BAR_WIDTH,
-                         # keep_on_top=True,
                          no_titlebar=True,
                          titlebar_background_color=TITLEBAR_COLOR,
                          margins=(0, 0),
-                         finalize=True,
-                         element_justification="c"
-                         )
+                         element_justification="c",
+                         finalize=True)
 
 
 def make_warning_popup(reason):

@@ -39,7 +39,7 @@ def config_main():
     while True:
         event, values = config_window.read()
 
-        if event == sg.WINDOW_CLOSED or event == EXIT_ICON_KEY or event == "Exit":
+        if event == sg.WINDOW_CLOSED or event == EXIT_ICON_KEY:
             break
 
         if event == CONFIG_SAVE_KEY:
@@ -86,11 +86,12 @@ def main():
 
     editors = epr_config.get_editors()
     window = EprGui(editors).create_window()
+    window[EXIT_ICON_KEY].set_cursor("hand2")
 
     while True:
         event, values = window.read()
 
-        if event == sg.WINDOW_CLOSED or event == "Cancel":
+        if event == sg.WINDOW_CLOSED or event == EXIT_ICON_KEY:
             break
 
         if event in [SUBMIT_KEY, OPEN_CONFIG_KEY]:
