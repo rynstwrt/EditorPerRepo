@@ -72,9 +72,8 @@ class EprGui:
                          sbar_arrow_width=SCROLL_BAR_WIDTH)
 
 
-    @staticmethod
-    def make_warning_popup(reason):
-        sg.popup(title=WARNING_POPUP_TITLE,
-                 any_key_closes=True,
-                 custom_text=reason.upper(),
-                 button_type=sg.POPUP_BUTTONS_ERROR)
+def make_warning_popup(reason):
+    sg.popup(title=WARNING_POPUP_TITLE,
+             any_key_closes=True,
+             custom_text=reason.upper(),
+             button_type=sg.POPUP_BUTTONS_ERROR)

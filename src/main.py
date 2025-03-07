@@ -6,6 +6,7 @@ from pathlib import Path
 from util.global_constants import *
 from epr_config import EprConfig
 from epr_gui import EprGui
+from epr_gui import make_warning_popup
 import util.epr_arg_parser
 
 
@@ -27,7 +28,7 @@ def main():
     target_dir_str = args["target-dir"]
     target_dir_path = util.epr_util.get_parsed_abs_path(target_dir_str, Path.cwd())
     if not target_dir_path.is_dir():
-        return EprGui.make_warning_popup("Given path is not a directory!")
+        return make_warning_popup("Given path is not a directory!")
 
     try:
         epr_config = EprConfig()
@@ -54,7 +55,7 @@ def main():
         if event in [SUBMIT_KEY, OPEN_CONFIG_KEY]:
             selected_editor_name = window[EDITOR_LIST_KEY].get()
             if not selected_editor_name:
-                EprGui.make_warning_popup("No editor is selected!")
+                make_warning_popup("No editor is selected!")
                 continue
 
             selected_editor_name = selected_editor_name[0]
@@ -62,7 +63,7 @@ def main():
             selected_editor_by_name = epr_config.get_editor_from_name(selected_editor_name)
             selected_editor_path_matches = selected_editor_by_name["editor_path"]
             if not selected_editor_path_matches:
-                EprGui.make_warning_popup("No editor paths are assigned to that editor!")
+                make_warning_popup("No editor paths are assigned to that editor!")
                 continue
 
             if window[SAVE_SELECTION_CHECKBOX_KEY].get():
@@ -89,4 +90,4 @@ if __name__ == "__main__":
         skip_opening_editors = args["skip-open"]
         main()
     else:
-        EprGui.make_warning_popup("No path given!")
+        make_warning_popup("No path given!")
