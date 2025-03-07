@@ -2,22 +2,21 @@ import datetime
 import json
 import shutil
 from util.epr_util import EprUtil
-from util.constants import CONFIG_BACKUP_LOCATION
+from util.constants import CONFIG_BACKUP_LOCATION, CONFIG_FILE
 from pathlib import Path
 
 
 class EprConfig:
     def __init__(self):
-        self.config_path = None
+        self.config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
         self.editors = []
 
 
-    def load_config(self, config_path):
-        self.config_path = config_path
-        if not config_path.exists():
-            return EprUtil.raise_epr_error(f"Error finding config! Path given: {config_path}")
+    def load_config(self):
+        if not self.config_path.exists():
+            return EprUtil.raise_epr_error(f"Error finding config! Path given: {self.config_path}")
 
-        with open(config_path, "r") as f:
+        with open(self.config_path, "r") as f:
             json_data = json.loads(f.read())
             f.close()
             self.editors = json_data["editors"]

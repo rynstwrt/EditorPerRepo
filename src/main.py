@@ -34,10 +34,9 @@ def main():
     if not target_dir_path.is_dir():
         return EprGui.make_warning_popup("Given path is not a directory!")
 
-    config_path = EprUtil.get_parsed_abs_path(CONFIG_FILE, Path(__file__).parent)
     try:
         epr_config = EprConfig()
-        epr_config.load_config(config_path)
+        epr_config.load_config()
     except Exception as err:
         return print(err)
 
@@ -79,7 +78,7 @@ def main():
             if event == SUBMIT_KEY:
                 on_submit_button_press(selected_editor_path, target_dir_path)
             elif event == OPEN_CONFIG_KEY:
-                on_open_config_press(selected_editor_path, config_path)
+                on_open_config_press(selected_editor_path, epr_config.config_path)
 
             break
 
