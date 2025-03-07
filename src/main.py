@@ -34,19 +34,12 @@ def config_main():
     if not config_window:
         return
 
-    has_run_once = False
-    # config_window.read()
-    config_window["exit-icon"].set_cursor("hand2")
-    config_window.read()
+    config_window[EXIT_ICON_KEY].set_cursor("hand2")
+
     while True:
         event, values = config_window.read()
 
-        if not has_run_once:
-            print("set cursor")
-            has_run_once = True
-            continue
-
-        if event == sg.WINDOW_CLOSED or event == "Cancel":
+        if event == sg.WINDOW_CLOSED or event == EXIT_ICON_KEY or event == "Exit":
             break
 
         if event == CONFIG_SAVE_KEY:
