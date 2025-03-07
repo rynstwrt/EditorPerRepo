@@ -9,8 +9,8 @@ def parse_args(args):
 
     arg_values = {
         "target-dir": util.epr_util.get_parsed_abs_path(args[0], Path.cwd()),
-        "skip-open-editor": "--skip-open-editor" in args,
-        "ignore-editor-associations": "--ignore-editor-associations" in args
+        "skip-open": "--skip-open" in args,
+        "ignore-saved": "--ignore-saved" in args
     }
 
     return arg_values

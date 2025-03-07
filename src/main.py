@@ -85,8 +85,8 @@ if __name__ == "__main__":
     args = util.epr_arg_parser.parse_args(sys.argv)
 
     if args:
-        ignore_editor_associations = args["ignore-editor-associations"]
-        skip_opening_editors = args["skip-open-editor"]
+        ignore_editor_associations = args["ignore-saved"]
+        skip_opening_editors = args["skip-open"]
         main()
     else:
         EprGui.make_warning_popup("No path given!")
