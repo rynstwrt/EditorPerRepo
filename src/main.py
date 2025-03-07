@@ -87,4 +87,5 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    EprConfig().backup()
+    # main()

@@ -1,5 +1,6 @@
 CONFIG_FILE = "./epr-config.json"
 CONFIG_BACKUP_LOCATION = "./config_backups"
+MAX_CONFIG_BACKUPS = 5
 
 WINDOW_TITLE = "EditorPerRepo"
 DEFAULT_WINDOW_SIZE = (500, 250)
