@@ -30,6 +30,8 @@ def config_main():
 
     config_editors = epr_config.get_editors()
     config_window = EprConfigGUI(config_editors).create_window()
+    if not config_window:
+        return
 
     while True:
         event, values = config_window.read()
@@ -37,23 +39,27 @@ def config_main():
         if event == sg.WINDOW_CLOSED or event == "Cancel":
             break
 
-        if event == CONFIG_EDITOR_DETECT_KEY:
-            print("detecting...")
+        if event == CONFIG_SAVE_KEY:
+            print("Config save!")
+            sg.set_options(background_color="blue")
 
-        if event == CONFIG_EDITOR_RENAME_KEY:
-            print("renaming...")
+        # if event == CONFIG_EDITOR_DETECT_KEY:
+        #     print("detecting...")
+        #
+        # if event == CONFIG_EDITOR_RENAME_KEY:
+        #     print("renaming...")
+        #
+        # if event == CONFIG_EDITOR_REMOVE_KEY:
+        #     print("removing...")
+        #
+        # if event == CONFIG_EDITOR_ADD_KEY:
+        #     print("adding...")
 
-        if event == CONFIG_EDITOR_REMOVE_KEY:
-            print("removing...")
-
-        if event == CONFIG_EDITOR_ADD_KEY:
-            print("adding...")
-
-        if event in [CONFIG_EDITOR_ADD_REMOVE_SAVE_KEY, CONFIG_EDITOR_REMOVE_ASSOCIATIONS_SAVE_KEY]:
-            print("saving...", event)
+        # if event in [CONFIG_EDITOR_ADD_REMOVE_SAVE_KEY, CONFIG_EDITOR_REMOVE_ASSOCIATIONS_SAVE_KEY]:
+        #     print("saving...", event)
 
     config_window.close()
-    sys.exit()
+    del config_window
 
 
 def main():
