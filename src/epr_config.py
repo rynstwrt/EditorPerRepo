@@ -1,5 +1,10 @@
+import datetime
 import json
+import os.path
+import shutil
 from util.epr_util import EprUtil
+from util.constants import CONFIG_BACKUP_LOCATION
+from pathlib import Path
 
 
 class EprConfig:
@@ -13,11 +18,15 @@ class EprConfig:
         if not config_path.exists():
             return EprUtil.raise_epr_error(f"Error finding config! Path given: {config_path}")
 
-        config_file_open = open(config_path, "r")
-        json_data = json.loads(config_file_open.read())
-        config_file_open.close()
+        with open(config_path, "r") as f:
+            json_data = json.loads(f.read())
+            self.editors = json_data["editors"]
+            f.close()
 
-        self.editors = json_data["editors"]
+        # config_file_open = open(config_path, "r")
+        # json_data = json.loads(config_file_open.read())
+        # config_file_open.close()
+        # self.editors = json_data["editors"]
 
 
     def save_config(self):
@@ -53,3 +62,17 @@ class EprConfig:
         dir_path = dir_path if dir_path is str else str(dir_path)
         if dir_path not in editor["associated_dirs"]:
             editor["associated_dirs"].append(dir_path)
+            self.save_config()
+
+
+    def backup(self):
+        backup_dir_path = (Path(__file__).parent / CONFIG_BACKUP_LOCATION).resolve()
+        config_name = self.config_path.stem
+        config_ext = ".".join(self.config_path.suffixes)
+
+        current_time = datetime.datetime.now()
+        timestamp = current_time.strftime("%b-%d-%y_%H.%M.%S")
+        output_path = backup_dir_path.joinpath(f"{config_name}_{timestamp}{config_ext}")
+        shutil.copy(self.config_path, output_path)
+
+        print(f"Backup made to {output_path}")

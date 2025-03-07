@@ -1,4 +1,5 @@
 CONFIG_FILE = "./epr-config.json"
+CONFIG_BACKUP_LOCATION = "./config_backups"
 
 WINDOW_TITLE = "EditorPerRepo"
 DEFAULT_WINDOW_SIZE = (500, 250)
@@ -12,3 +13,5 @@ OPEN_CONFIG_KEY = "config-button"
 SUBMIT_KEY = "submit-button"
 
 THEME = "Dark Grey 15"
+
+# LAUNCH_BYPASS_KEY = "shift"

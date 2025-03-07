@@ -159,3 +159,5 @@ cython_debug/
 /backups
 epr.data
 /node_modules
+test.py
+config_backups/
